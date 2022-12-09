@@ -18,5 +18,5 @@ def recovery(request):
 def signup(request):
     pass
 
-def signin(request):
+def login(request):
     pass
