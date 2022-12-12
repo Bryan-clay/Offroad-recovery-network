@@ -14,6 +14,7 @@ from decouple import config
 from dotenv import load_dotenv
 from pathlib import Path
 load_dotenv()
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,7 +128,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / STATIC_URL
+    BASE_DIR / STATIC_URL,
+    # os.path.join(BASE_DIR, 'assets'),
 ]
 
 # Default primary key field type

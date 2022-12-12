@@ -39,7 +39,7 @@ function DisplayMap() {
     }, []);
 
     return (
-      <div style={{height:'90vh',width:'90%'}} ref={mapElement} className="map-container" />
+      <div style={{height:'50vh',width:'100%'}} ref={mapElement} className="map-container" />
     );
 }
 

@@ -51,14 +51,14 @@ function App() {
 
           <Navbar className="navbar navbar-dark bg-dark">
             {/* <Container> */}
-              <Navbar.Brand href="">WTRN</Navbar.Brand>
-              <Nav className="me-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/recovery">Request Recovery</Nav.Link>
-                <Nav.Link href="/archive">Archive</Nav.Link>
-                <Nav.Link href="/logIn">Log In</Nav.Link>
-                <Nav.Link href="/signUp">Sign Up</Nav.Link>
-              </Nav>
+            <Navbar.Brand href="">WTRN</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/recovery">Request Recovery</Nav.Link>
+              <Nav.Link href="/archive">Archive</Nav.Link>
+              <Nav.Link href="/login">Log In</Nav.Link>
+              <Nav.Link href="/signup">Sign Up</Nav.Link>
+            </Nav>
             {/* </Container> */}
           </Navbar>
         </header>
@@ -117,7 +117,7 @@ function App() {
           </Router>
         </div>
       </div>
-      <div>
+      <div style={{ border: "3px solid black" }}>
         <button onClick={() => setShow(!show)}> Show/Hide Map</button>
         {show && <DisplayMap />}
       </div>

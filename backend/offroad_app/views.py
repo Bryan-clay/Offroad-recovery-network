@@ -10,13 +10,17 @@ def home(request):
     
 
 def archive(request):
-    pass
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)
 
 def recovery(request):
-    pass
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)
 
 def signup(request):
-    pass
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)
 
 def login(request):
-    pass
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)

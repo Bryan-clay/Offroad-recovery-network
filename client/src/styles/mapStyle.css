@@ -7,10 +7,11 @@ body {
 } */
 
 #map {
+    position: relative;
     display: flex;
  
     top: 60%;
     bottom: 10%;
-    width: 50%;
-    height: 50%;
+    width: 500px;
+    height: 300px;
 }
