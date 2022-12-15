@@ -8,15 +8,11 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Archive from './pages/archive';
 import HomePage from './pages/HomePage';
-import Login from './pages/login';
-import Signup from './pages/signup';
 import Recovery from './pages/recovery';
 import DisplayMap from './components/display_map';
-// import Map from 'ol/Map';
-// import View from 'ol/View';
-// import TileLayer from "ol/layer/Tile";
-// import XYZ from "ol/source/XYZ";
-// import Layer from 'ol/Layer';
+import Account from './pages/Account';
+import Login from './components/login';
+
 
 
 
@@ -56,8 +52,8 @@ function App() {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/recovery">Request Recovery</Nav.Link>
               <Nav.Link href="/archive">Archive</Nav.Link>
-              <Nav.Link href="/login">Log In</Nav.Link>
-              <Nav.Link href="/signup">Sign Up</Nav.Link>
+              <Nav.Link href="/account">Account</Nav.Link>
+              <Nav.Link href="/login">Log in / Sign up</Nav.Link>
             </Nav>
             {/* </Container> */}
           </Navbar>
@@ -82,26 +78,26 @@ function App() {
                 }
               />
               <Route
-                path="login/"
-                element={
-                  <h1>
-                    <Login />
-                  </h1>
-                }
-              />
-              <Route
-                path="signup/"
-                element={
-                  <h1>
-                    <Signup />
-                  </h1>
-                }
-              />
-              <Route
                 path="recovery/"
                 element={
                   <h1>
                     <Recovery />
+                  </h1>
+                }
+              />
+              <Route
+                path="account/"
+                element={
+                  <h1>
+                    <Account />
+                  </h1>
+                }
+              />
+              <Route
+                path="login/"
+                element={
+                  <h1>
+                    <Login />
                   </h1>
                 }
               />

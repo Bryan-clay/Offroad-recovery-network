@@ -4,7 +4,8 @@
 // import OSM from 'ol/source/OSM.js';
 // import TileLayer from 'ol/layer/Tile.js';
 // import View from 'ol/View.js';
-import '../styles/mapStyle.css'
+import './components.css'
+
 
 import React, { useState, useEffect, useRef } from "react";
 import { Map, View } from "ol";
@@ -32,7 +33,7 @@ function DisplayMap() {
           ],
           view: new View({
             center: startPos,
-            zoom: 6.5,
+            zoom: 7,
           }),
         });
         setMap(initialMap);

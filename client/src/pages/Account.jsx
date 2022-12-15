@@ -3,7 +3,7 @@ import Login from "../components/login";
 import Signup from "../components/signup";
 import Nav from "react-bootstrap/Nav";
 
-function LogIn() {
+function Account() {
   const [signUpShow, setSignUpShow] = useState(false);
   const [logInShow, setLogInShow] = useState(false);
 
@@ -32,4 +32,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default Account;
