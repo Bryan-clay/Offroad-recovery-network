@@ -7,8 +7,8 @@ urlpatterns = [
     path('archive/', views.archive),
     path('recovery/', views.recovery),
     path('account/', views.account),
-    # path('login/', views.login),
-    # path('signup/', views.signup),
-    path('account/login/', views.login),
-    path('account/signup/', views.signup)
+    path('account/login/', views.log_in),
+    path('account/signup/', views.sign_up),
+    path('account/logout/', views.log_out),
+    path('account/current_user/', views.current_user)
 ]

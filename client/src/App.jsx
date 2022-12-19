@@ -16,26 +16,45 @@ import Login from './components/login';
 
 
 
+
+
+
+
 function App() {
   const [show, setShow] = useState(false);
 
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) === name + "=") {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-    const csrftoken = getCookie("csrftoken");
-    axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
+ function getCookie(name) {
+   let cookieValue = null;
+   if (document.cookie && document.cookie !== "") {
+     const cookies = document.cookie.split(";");
+     for (let i = 0; i < cookies.length; i++) {
+       const cookie = cookies[i].trim();
+
+       if (cookie.substring(0, name.length + 1) === name + "=") {
+         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+         break;
+       }
+     }
+   }
+   return cookieValue;
+ }
+ const csrftoken = getCookie("csrftoken");
+ axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
+
+ const getCSRFToken = () => {
+   let csrfToken;
+
+   const cookies = document.cookie.split(";");
+   for (let cookie of cookies) {
+     const crumbs = cookie.split("=");
+     if (crumbs[0].trim() === "csrftoken") {
+       csrfToken = crumbs[1];
+     }
+   }
+   return csrfToken;
+ };
+ console.log("token? ", getCSRFToken());
+ axios.defaults.headers.common["X-CSRFToken"] = getCSRFToken();
 
 
 
@@ -53,7 +72,7 @@ function App() {
               <Nav.Link href="/recovery">Request Recovery</Nav.Link>
               <Nav.Link href="/archive">Archive</Nav.Link>
               <Nav.Link href="/account">Account</Nav.Link>
-              <Nav.Link href="/login">Log in / Sign up</Nav.Link>
+              {/* <Nav.Link href="/login">Log out</Nav.Link> */}
             </Nav>
             {/* </Container> */}
           </Navbar>
