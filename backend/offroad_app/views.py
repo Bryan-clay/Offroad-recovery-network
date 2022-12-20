@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate, login, logout
 from . models import *
 from django.core import serializers
+from datetime import datetime
 
 
 
@@ -18,8 +19,11 @@ def archive(request):
     theIndex = open('static/index.html').read()
     return HttpResponse(theIndex)
 
+
+
 def recovery(request):
     theIndex = open('static/index.html').read()
+
     return HttpResponse(theIndex)
 
 @api_view(['POST'])
@@ -77,7 +81,7 @@ def log_out(request):
 
 
 @api_view(['GET', 'POST'])
-def account(request):
+def log_in_page(request):
 
     theIndex = open('static/index.html').read()
     return HttpResponse(theIndex)
@@ -90,3 +94,34 @@ def current_user(request):
         return HttpResponse(data)
     else:
         return JsonResponse({'user': None})
+
+
+@api_view(['GET', 'POST'])
+def account(request):
+
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)
+
+@api_view(['POST'])
+def request_recovery(request):
+    ## ASSIGN A USER TO THE ENTRY
+    # user = request.data['user']
+    name = request.data['name']
+    location_longitude = request.data['loc_lon']
+    location_latitude = request.data['loc_lat']
+    description = request.data['description']
+    recovery_type = request.data['recovery_type']
+    vehicle_condition = request.data['vehicle_condition']
+    print(f"{name}, {location_longitude}, {location_latitude}, {description}, {recovery_type}, {vehicle_condition}")
+    try:
+        # Recoveries.objects.create(name=name, location_longitude=location_longitude, location_latitude = location_latitude, description=description, recovery_type=recovery_type, vehicle_condition=vehicle_condition)
+        return JsonResponse({'recovery request': True})
+    except Exception as e:
+        print(str(e))
+        return JsonResponse({'recovery request': False})
+
+
+def recoveries(request):
+    theIndex = open('static/index.html').read()
+    return HttpResponse(theIndex)
+

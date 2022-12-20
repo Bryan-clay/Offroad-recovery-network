@@ -2,10 +2,10 @@ import './components.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-function Login({activeUser, setActiveUser}) {
+function SignIn() {
 
 // const [user, setUser] = useState(null)
-// TODO: SIGN IN DOES NOT WORK
+
 
 
   const signIn =async(event) =>{
@@ -22,14 +22,7 @@ function Login({activeUser, setActiveUser}) {
     }
   };
 
-  // const currentUser =async() => {
-  //   let response = await axios.get('current_user/')
-  //   let user = response.data && response.data[0] && response.data[0].fields
-  //   setActiveUser(user);
-  // }
-  // useEffect(()=>{
-  //   currentUser()
-  // },[])
+
 
   return (
     <div>
@@ -46,4 +39,4 @@ function Login({activeUser, setActiveUser}) {
   );
 }
 
-export default Login;
+export default SignIn;

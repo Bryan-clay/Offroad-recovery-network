@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -8,13 +8,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Archive from './pages/archive';
 import HomePage from './pages/HomePage';
-import Recovery from './pages/recovery';
+import Recovery from './pages/RequestRecovery';
 import DisplayMap from './components/display_map';
 import Account from './pages/Account';
-import Login from './components/login';
-
-
-
+import Login from './pages/UserLogin';
 
 
 
@@ -22,41 +19,52 @@ import Login from './components/login';
 
 function App() {
   const [show, setShow] = useState(false);
+  const [activeUser, setActiveUser] = useState(null);
 
- function getCookie(name) {
-   let cookieValue = null;
-   if (document.cookie && document.cookie !== "") {
-     const cookies = document.cookie.split(";");
-     for (let i = 0; i < cookies.length; i++) {
-       const cookie = cookies[i].trim();
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
 
-       if (cookie.substring(0, name.length + 1) === name + "=") {
-         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-         break;
-       }
-     }
-   }
-   return cookieValue;
- }
- const csrftoken = getCookie("csrftoken");
- axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  const csrftoken = getCookie("csrftoken");
+  axios.defaults.headers.common["X-CSRFToken"] = csrftoken;
 
- const getCSRFToken = () => {
-   let csrfToken;
+  const getCSRFToken = () => {
+    let csrfToken;
 
-   const cookies = document.cookie.split(";");
-   for (let cookie of cookies) {
-     const crumbs = cookie.split("=");
-     if (crumbs[0].trim() === "csrftoken") {
-       csrfToken = crumbs[1];
-     }
-   }
-   return csrfToken;
- };
- console.log("token? ", getCSRFToken());
- axios.defaults.headers.common["X-CSRFToken"] = getCSRFToken();
+    const cookies = document.cookie.split(";");
+    for (let cookie of cookies) {
+      const crumbs = cookie.split("=");
+      if (crumbs[0].trim() === "csrftoken") {
+        csrfToken = crumbs[1];
+      }
+    }
+    return csrfToken;
+  };
+  console.log("token? ", getCSRFToken());
+  axios.defaults.headers.common["X-CSRFToken"] = getCSRFToken();
 
 
+    // const currentUser = async () => {
+    //   let response = await axios.get("current_user/");
+    //   let user = response.data && response.data[0] && response.data[0].fields;
+    //   if (activeUser !== null){
+    //   setActiveUser(user);
+    // }};
+
+    //   useEffect(() => {
+    //     currentUser();
+    //   }, []);
 
   return (
     <div className="app">
@@ -70,7 +78,9 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/recovery">Request Recovery</Nav.Link>
+              <Nav.Link href="/recoveries">Recovery Database</Nav.Link>
               <Nav.Link href="/archive">Archive</Nav.Link>
+              <Nav.Link href="/user">Log in</Nav.Link>
               <Nav.Link href="/account">Account</Nav.Link>
               {/* <Nav.Link href="/login">Log out</Nav.Link> */}
             </Nav>
@@ -84,7 +94,7 @@ function App() {
                 path=""
                 element={
                   <h1>
-                    <HomePage />
+                    <HomePage activeUser={activeUser} />
                   </h1>
                 }
               />
@@ -108,15 +118,21 @@ function App() {
                 path="account/"
                 element={
                   <h1>
-                    <Account />
+                    <Account
+                      activeUser={activeUser}
+                      setActiveUser={setActiveUser}
+                    />
                   </h1>
                 }
               />
               <Route
-                path="login/"
+                path="user/"
                 element={
                   <h1>
-                    <Login />
+                    <Login
+                      activeUser={activeUser}
+                      setActiveUser={setActiveUser}
+                    />
                   </h1>
                 }
               />

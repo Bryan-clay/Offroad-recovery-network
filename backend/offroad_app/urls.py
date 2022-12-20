@@ -6,9 +6,12 @@ urlpatterns = [
     path('', views.home),
     path('archive/', views.archive),
     path('recovery/', views.recovery),
+    path('recovery/request/', views.request_recovery),
     path('account/', views.account),
-    path('account/login/', views.log_in),
-    path('account/signup/', views.sign_up),
-    path('account/logout/', views.log_out),
-    path('account/current_user/', views.current_user)
+    path('user/', views.log_in_page),
+    path('user/login/', views.log_in),
+    path('user/signup/', views.sign_up),
+    path('user/logout/', views.log_out),
+    path('user/current_user/', views.current_user),
+    path('recoveries/', views.recoveries),
 ]
