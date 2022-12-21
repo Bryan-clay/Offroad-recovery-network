@@ -5,30 +5,22 @@ import Nav from "react-bootstrap/Nav";
 import axios from "axios";
 
 
-function Login({activeUser, setActiveUser}) {
+function Login({activeUser, setActiveUser, currentUser}) {
   const [signUpShow, setSignUpShow] = useState(false);
   const [logInShow, setLogInShow] = useState(false);
   // const [activeUser, setActiveUser] = useState(null);
   console.log(activeUser);
 
-  // TODO: LOGOUT DOES NOT WORK
+
 
   const logOut = async () => {
     // axios.defaults.headers.common['X-CSRFToken'] = getCSRFToken()
-    let response = await axios.post("logout/");
+    let response = await axios.post("user/logout/");
     if (response.data["logout"] == true) {
       window.location.reload();
     }
   };
 
-  const currentUser = async () => {
-    let response = await axios.get("current_user/");
-    let user = response.data && response.data[0] && response.data[0].fields;
-    setActiveUser(user);
-  };
-  useEffect(() => {
-    currentUser();
-  }, []);
 
   return (
     <div>
@@ -39,7 +31,10 @@ function Login({activeUser, setActiveUser}) {
           <button onClick={() => setLogInShow(!logInShow)}>Log In</button>
           {logInShow ? (
             <div>
-              <SignIn setActiveUser={setActiveUser} />
+              <SignIn 
+              setActiveUser={setActiveUser}
+              currentUser={currentUser}
+              />
             </div>
           ) : null}
         </div>

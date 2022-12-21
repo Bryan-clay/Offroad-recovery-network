@@ -6,7 +6,6 @@ import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Archive from './pages/archive';
 import HomePage from './pages/HomePage';
 import Recovery from './pages/RequestRecovery';
 import DisplayMap from './components/display_map';
@@ -18,8 +17,20 @@ import Login from './pages/UserLogin';
 
 
 function App() {
+
+  axios.defaults.baseURL='http://localhost:8000'
+
   const [show, setShow] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+
+  const currentUser = async () => {
+      let response = await axios.get("current_user/");
+      let user = response.data && response.data[0] && response.data[0].fields;
+      setActiveUser(user);
+    };
+    useEffect(() => {
+      currentUser();
+    }, []);
 
   function getCookie(name) {
     let cookieValue = null;
@@ -79,7 +90,6 @@ function App() {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/recovery">Request Recovery</Nav.Link>
               <Nav.Link href="/recoveries">Recovery Database</Nav.Link>
-              <Nav.Link href="/archive">Archive</Nav.Link>
               <Nav.Link href="/user">Log in</Nav.Link>
               <Nav.Link href="/account">Account</Nav.Link>
               {/* <Nav.Link href="/login">Log out</Nav.Link> */}
@@ -95,14 +105,6 @@ function App() {
                 element={
                   <h1>
                     <HomePage activeUser={activeUser} />
-                  </h1>
-                }
-              />
-              <Route
-                path="archive/"
-                element={
-                  <h1>
-                    <Archive />
                   </h1>
                 }
               />
@@ -132,6 +134,7 @@ function App() {
                     <Login
                       activeUser={activeUser}
                       setActiveUser={setActiveUser}
+                      currentUser={currentUser}
                     />
                   </h1>
                 }

@@ -15,12 +15,6 @@ def home(request):
     return HttpResponse(theIndex)
      
 
-def archive(request):
-    theIndex = open('static/index.html').read()
-    return HttpResponse(theIndex)
-
-
-
 def recovery(request):
     theIndex = open('static/index.html').read()
 

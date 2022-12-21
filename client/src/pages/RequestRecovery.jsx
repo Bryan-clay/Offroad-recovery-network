@@ -3,14 +3,13 @@ import React from 'react';
 import { useState, useEffect } from "react";
 
 
-function Recovery({ activeUser, setActiveUser }) {
+function Recovery({activeUser,}) {
   const [typeRecovery, setTypeRecovery] = useState('Unknown')
   const [vehicleCondition, setVehicleCondition] = useState('Unknown')
   const pSize = {
     fontSize: 22,
   };
-  currentUser()
-   console.log(console.log(activeUser));
+
 
     const recoveryRequest = async(event) => {
     event.preventDefault()

@@ -8,7 +8,7 @@ function Signup() {
     let email= document.getElementById('signUpEmail').value
     let password = document.getElementById("signUpPassword").value;
     console.log(email, password)
-    let response = await axios.post("signup/",{
+    let response = await axios.post("user/signup/",{
       'email': email,
       'password': password
     })

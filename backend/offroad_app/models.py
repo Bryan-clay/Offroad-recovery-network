@@ -20,17 +20,6 @@ class AppUser(AbstractUser):
     def __str__(self):
         return f'{self.email}, {self.password}'
 
-# class AdminUser(AbstractUser):
-#     email = models.EmailField(
-#         verbose_name='email address',
-#         max_length=255,
-#         unique=True
-#     )
-#     zone = models.IntegerField
-#     vehicle_description = models.CharField(max_length=200)
-
-#     USERNAME_FIELD = 'email'
-#     REQUIRED_FIELDS =[]
 
 
 

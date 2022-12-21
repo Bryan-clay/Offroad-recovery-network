@@ -2,7 +2,7 @@ import './components.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-function SignIn() {
+function SignIn({currentUser}) {
 
 // const [user, setUser] = useState(null)
 
@@ -12,13 +12,13 @@ function SignIn() {
     event.preventDefault()
     let email = document.getElementById("signInEmail").value;
     let password = document.getElementById("signInPassword").value;
-    let response = await axios.post("login/", {
+    let response = await axios.post("user/login/", {
       'email':email,
       'password': password
     });
     console.log(response.data)
     if (response.data['login']==true){
-      window.location.reload()
+      currentUser()
     }
   };
 
