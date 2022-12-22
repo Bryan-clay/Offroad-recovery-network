@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React from 'react';
+import MapBox from '../components/mapBox';
 import { useState, useEffect } from "react";
+// import mapboxgl from 'mapbox-gl';
 
 
-function Recovery({activeUser,}) {
+function RequestRecovery({activeUser, marker}) {
   const [typeRecovery, setTypeRecovery] = useState('Unknown')
   const [vehicleCondition, setVehicleCondition] = useState('Unknown')
+  const [showMap, setShowMap] = useState(false);
+  const [clickedLocation, setClickedLocation] = useState(null)
   const pSize = {
     fontSize: 22,
   };
-
 
     const recoveryRequest = async(event) => {
     event.preventDefault()
@@ -22,9 +25,19 @@ function Recovery({activeUser,}) {
     // let vehicle_condition = 'vehicle is drivable';
 
     //   console.log(name);
+    console.log(marker)
     let user = activeUser
     
+    
     let name = document.getElementById("name").value
+    // if (!showMap){
+    //   let loc_lon = document.getElementById("loc_lon").value;
+    //   let loc_lat = document.getElementById("loc_lat").value;
+    // }
+    // else {
+    //   let loc_lon = marker.lng;
+    //   let loc_lat = marker.lat;
+    // }
     let loc_lon = document.getElementById("loc_lon").value;
     let loc_lat = document.getElementById("loc_lat").value;
     let description = document.getElementById("description").value;
@@ -34,6 +47,7 @@ function Recovery({activeUser,}) {
     // let vehicle_condition = document.getElementsByClassName("condition").value;
      console.log(recovery_type);
     let response = await axios.post("request/", {
+      
       // 'user': user,
       'name': name,
       'loc_lon': loc_lon,
@@ -47,6 +61,11 @@ function Recovery({activeUser,}) {
       window.location.reload()
     }
   };
+
+
+
+
+
 
   return (
     <div>
@@ -70,16 +89,45 @@ function Recovery({activeUser,}) {
             <div>
               <h3>Location of vehicle</h3>
               <div>
-                <input type="checkbox" id="location" name="location" />
-
+                <input
+                  onClick={function (event) {
+                    setShowMap(!showMap);
+                  }}
+                  // onClick={() => setShowMap(!showMap)}
+                  type="checkbox"
+                  id="location"
+                  name="location"
+                />
                 <label style={pSize} for="location">
                   <p> I do not have GPS Coordinates</p>
                 </label>
+                {showMap ? (
+                  <div>
+                    <p style={pSize}>
+                      Please click on your location in the map or leave a
+                      detailed description of your location.
+                    </p>
+                    <MapBox />
+                  </div>
+                ) : null}
               </div>
-              <h3>Longitude</h3>
-              <input id="loc_lon" type="text" placeholder="Longitude" />
-              <h3>Latitude</h3>
-              <input id="loc_lat" type="text" placeholder="Latitude" />
+              {!showMap ? 
+              (<div>
+                <h3>Longitude</h3>
+                <input
+                  className="coordinates"
+                  id="loc_lon"
+                  type="text"
+                  placeholder="Longitude"
+                />
+                <h3>Latitude</h3>
+                <input
+                  className="coordinates"
+                  id="loc_lat"
+                  type="text"
+                  placeholder="Latitude"
+                />
+              </div>) : null}
               <div>
                 <p style={pSize}>
                   If the GPS coordinates are not known, please provide a
@@ -102,10 +150,10 @@ function Recovery({activeUser,}) {
                 <div style={pSize}>
                   <input
                     type="radio"
-                    onClick={() => setTypeRecovery("Stranded Vehicle")}
+                    onClick={() => setTypeRecovery("Stranded Vehicle/Person")}
                     name="recoveryType"
                   />{" "}
-                  Stranded Person
+                  Stranded Vehicle/Person
                   <br />
                   <input
                     type="radio"
@@ -151,11 +199,7 @@ function Recovery({activeUser,}) {
                   <br />
                   <input
                     type="radio"
-                    onClick={() =>
-                      setVehicleCondition(
-                        "Unknown"
-                      )
-                    }
+                    onClick={() => setVehicleCondition("Unknown")}
                     name="condition"
                   />{" "}
                   Unknown
@@ -172,4 +216,4 @@ function Recovery({activeUser,}) {
   );
 }
 
-export default Recovery
+export default RequestRecovery

@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from . models import *
 from django.core import serializers
 from datetime import datetime
+from django.core.serializers import serialize
 
 
 
@@ -108,7 +109,7 @@ def request_recovery(request):
     vehicle_condition = request.data['vehicle_condition']
     print(f"{name}, {location_longitude}, {location_latitude}, {description}, {recovery_type}, {vehicle_condition}")
     try:
-        # Recoveries.objects.create(name=name, location_longitude=location_longitude, location_latitude = location_latitude, description=description, recovery_type=recovery_type, vehicle_condition=vehicle_condition)
+        Recoveries.objects.create(name=name, location_longitude=location_longitude, location_latitude = location_latitude, description=description, recovery_type=recovery_type, vehicle_condition=vehicle_condition)
         return JsonResponse({'recovery request': True})
     except Exception as e:
         print(str(e))
@@ -119,3 +120,11 @@ def recoveries(request):
     theIndex = open('static/index.html').read()
     return HttpResponse(theIndex)
 
+
+@api_view(['GET'])
+def all_recoveries(response):
+    list_of_recoveries = list(Recoveries.objects.all().values())
+    print(list_of_recoveries)
+    # serialized_data = serialize("json", list_of_recoveries)
+    # print(serialized_data)
+    return JsonResponse({'all_recoveries': list_of_recoveries})

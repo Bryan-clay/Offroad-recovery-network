@@ -7,30 +7,46 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import HomePage from './pages/HomePage';
-import Recovery from './pages/RequestRecovery';
-import DisplayMap from './components/display_map';
+import RequestRecovery from './pages/RequestRecovery';
 import Account from './pages/Account';
 import Login from './pages/UserLogin';
+import MapBox from './components/mapBox';
+import Recoveries from './pages/Recoveries';
+
+
+import "mapbox-gl/dist/mapbox-gl.css";
 
 
 
 
 
-function App() {
+function App({lng, lat, zoom}) {
 
   axios.defaults.baseURL='http://localhost:8000'
 
+
+
   const [show, setShow] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [recoveries, setRecoveries] = useState([]);
+
+  const getRecoveryInfo = async () => {
+    let response = await axios.get('recoveries/get_all')
+    .then((response)=> {
+      console.log(response.data["all_recoveries"])
+      //const recoveryInfo = response.data
+    })
+  }
 
   const currentUser = async () => {
       let response = await axios.get("current_user/");
       let user = response.data && response.data[0] && response.data[0].fields;
       setActiveUser(user);
     };
-    useEffect(() => {
-      currentUser();
-    }, []);
+  useEffect(() => {
+    currentUser();
+    getRecoveryInfo();
+  }, []);
 
   function getCookie(name) {
     let cookieValue = null;
@@ -88,7 +104,7 @@ function App() {
             <Navbar.Brand href="">WTRN</Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/recovery">Request Recovery</Nav.Link>
+              <Nav.Link href="/request_recovery">Request Recovery</Nav.Link>
               <Nav.Link href="/recoveries">Recovery Database</Nav.Link>
               <Nav.Link href="/user">Log in</Nav.Link>
               <Nav.Link href="/account">Account</Nav.Link>
@@ -109,10 +125,18 @@ function App() {
                 }
               />
               <Route
-                path="recovery/"
+                path="request_recovery/"
                 element={
                   <h1>
-                    <Recovery />
+                    <RequestRecovery />
+                  </h1>
+                }
+              />
+              <Route
+                path="recoveries/"
+                element={
+                  <h1>
+                    <Recoveries />
                   </h1>
                 }
               />
@@ -140,10 +164,10 @@ function App() {
                 }
               />
               <Route
-                path="displayMap"
+                path="mapBox"
                 element={
                   <div>
-                    <DisplayMap />
+                    <MapBox />
                   </div>
                 }
               />
@@ -151,10 +175,24 @@ function App() {
           </Router>
         </div>
       </div>
-      <div style={{ border: "3px solid black" }}>
+      <div>
         <button onClick={() => setShow(!show)}> Show/Hide Map</button>
-        {show && <DisplayMap />}
+
+        {show && (
+          <div>
+            <MapBox
+            // style={{
+            //   width: 600,
+            //   height: 400,
+            //   borderRadius: "15px",
+            //   border: "3px solid black",
+            // }}
+            />
+          </div>
+        )}
       </div>
+
+      <div></div>
     </div>
   );
 }

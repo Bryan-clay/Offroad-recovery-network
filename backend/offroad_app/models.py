@@ -27,7 +27,7 @@ class Recoveries(models.Model):
     name = models.CharField(max_length=100)
     location_longitude = models.FloatField(default=None)
     location_latitude = models.FloatField(default=None)
-    description = models.TextField(default=None)
+    description = models.TextField(default="")
     recovery_type = models.CharField(max_length=60)
     vehicle_condition = models.CharField(max_length=60)
     recovery = models.DateField.auto_now_add=True
@@ -35,6 +35,7 @@ class Recoveries(models.Model):
     approved = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
     user = models.ManyToManyField(AppUser)
+    after_action_report = models.TextField(default="")
 
     
 

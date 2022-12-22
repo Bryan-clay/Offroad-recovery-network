@@ -4,8 +4,8 @@ from.import views
 
 urlpatterns = [
     path('', views.home),
-    path('recovery/', views.recovery),
-    path('recovery/request/', views.request_recovery),
+    path('request_recovery/', views.recovery),
+    path('request/', views.request_recovery),
     path('account/', views.account),
     path('user/', views.log_in_page),
     path('user/login/', views.log_in),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('user/logout/', views.log_out),
     path('current_user/', views.current_user),
     path('recoveries/', views.recoveries),
+    path('recoveries/get_all', views.all_recoveries)
 ]
