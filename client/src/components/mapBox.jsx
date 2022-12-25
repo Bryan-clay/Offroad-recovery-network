@@ -6,6 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl'
 
+
 mapboxgl.accessToken ="pk.eyJ1IjoiYmNsYXkiLCJhIjoiY2xieDFpdGdmMDJocDNwcGlkODlta3hsdSJ9.oBLUtqOO-APMWSU-qglGJg";
 
 
@@ -19,7 +20,7 @@ const [zoom, setZoom] = useState(5.6);
 const [marker, setMarker] = useState(null)
 
 const handleClick =(e) =>{
-    console.log(e)
+    
     const coordinates = e.lngLat
     console.log(coordinates)
     setMarker({

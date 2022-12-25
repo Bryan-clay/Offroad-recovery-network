@@ -6,6 +6,9 @@ from . models import *
 from django.core import serializers
 from datetime import datetime
 from django.core.serializers import serialize
+from django.core.validators import EmailValidator
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 
 
@@ -62,6 +65,30 @@ def log_in(request):
         return JsonResponse({'success': False, 'reason':'user is not active'})
 
 
+@api_view(['GET'])
+def current_user(request):
+    user = request.user
+    if user.is_authenticated:
+        data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'is_staff': user.is_staff,
+
+        }
+        # print(request.user)
+
+        # data=serializers.serialize('json', [request.user], fields=['id', 'email', 'is_superuser', 'is_staff', 'First_name', 'last_name'])
+        
+        # print(data)
+        # return HttpResponse(data)
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'user': None})
+
+
 
 @api_view(['POST'])
 def log_out(request):
@@ -82,13 +109,7 @@ def log_in_page(request):
     return HttpResponse(theIndex)
 
 
-@api_view(['GET'])
-def current_user(request):
-    if request.user.is_authenticated:
-        data=serializers.serialize('json', [request.user], fields=['email'])
-        return HttpResponse(data)
-    else:
-        return JsonResponse({'user': None})
+
 
 
 @api_view(['GET', 'POST'])
@@ -122,9 +143,64 @@ def recoveries(request):
 
 
 @api_view(['GET'])
-def all_recoveries(response):
+def all_recoveries(rquest):
     list_of_recoveries = list(Recoveries.objects.all().values())
-    print(list_of_recoveries)
+    # print(list_of_recoveries)
     # serialized_data = serialize("json", list_of_recoveries)
     # print(serialized_data)
     return JsonResponse({'all_recoveries': list_of_recoveries})
+
+@api_view(['GET'])
+def user_info(request, email):
+    print(request)
+    user_information = list(AppUser.objects.filter(email = email).values())
+    print(user_information)
+
+    return JsonResponse({'response': True})
+
+@api_view(['PUT', 'DELETE'])
+def update_user(request):
+    print(request.data)
+    if request.method == 'PUT':
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        email = request.data['email']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        print(first_name)
+        print(last_name)
+        print(email)
+        if email is not "":
+            validator = EmailValidator()
+            validator(email)
+            user.email = email
+        if first_name is not "":
+            user.first_name = first_name
+        if last_name is not "":
+            user.last_name = last_name
+        user.save()
+        return JsonResponse({'update_info': True})
+
+
+
+
+
+
+
+        # if request.data['firstName'] is not None:
+        #     f_name = request.data['firstName']
+        #     user_id.first_name = f_name
+        # if request.data['lastName'] is not None:
+        #     l_name = request.data['laststName']
+        #     user_id.last_name = l_name
+        # if request.data['email'] is not None:
+        #     try:
+        #         validate_email(request.data['email'])
+        #         new_email = request.data['email']
+        #         user_id.email = new_email
+        #         user_id.save()
+        #         return JsonResponse({'user update': True})
+
+
+        #     except Exception as e:
+        #         return JsonResponse({'email validation': False})

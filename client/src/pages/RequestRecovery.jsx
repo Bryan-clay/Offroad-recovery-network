@@ -9,58 +9,65 @@ function RequestRecovery({activeUser, marker}) {
   const [typeRecovery, setTypeRecovery] = useState('Unknown')
   const [vehicleCondition, setVehicleCondition] = useState('Unknown')
   const [showMap, setShowMap] = useState(false);
-  const [clickedLocation, setClickedLocation] = useState(null)
+  // const [clickedLocation, setClickedLocation] = useState(null)
   const pSize = {
     fontSize: 22,
   };
 
     const recoveryRequest = async(event) => {
-    event.preventDefault()
+      event.preventDefault();
+      let loc_lon = null;
+      let loc_lat = null;
+      if (!showMap){
+        loc_lon = document.getElementById("loc_lon").value;
+        loc_lat = document.getElementById("loc_lat").value;
+        console.log('INPUT')
+        console.log(loc_lon)
+        console.log(loc_lat)
+      }
+      else {
+        loc_lon = marker.lng;
+        loc_lat = marker.lat;
+        console.log('MARKER')
+        console.log(loc_lon);
+        console.log(loc_lat);
+      }
 
-    // let name = 'bryan';
-    // let loc_lon = '-117.540';
-    // let loc_lat = '23.546';
-    // let description = 'Help me my vehicle has slid off the road on FS70';
-    // let recovery_type = 'vehicle off trail';
-    // let vehicle_condition = 'vehicle is drivable';
+      // let name = 'bryan';
+      // let loc_lon = '-117.540';
+      // let loc_lat = '23.546';
+      // let description = 'Help me my vehicle has slid off the road on FS70';
+      // let recovery_type = 'vehicle off trail';
+      // let vehicle_condition = 'vehicle is drivable';
 
-    //   console.log(name);
-    console.log(marker)
-    let user = activeUser
-    
-    
-    let name = document.getElementById("name").value
-    // if (!showMap){
-    //   let loc_lon = document.getElementById("loc_lon").value;
-    //   let loc_lat = document.getElementById("loc_lat").value;
-    // }
-    // else {
-    //   let loc_lon = marker.lng;
-    //   let loc_lat = marker.lat;
-    // }
-    let loc_lon = document.getElementById("loc_lon").value;
-    let loc_lat = document.getElementById("loc_lat").value;
-    let description = document.getElementById("description").value;
-    let recovery_type = typeRecovery
-    // let recovery_type = document.getElementsByClassName("recoveryType").value;
-    let vehicle_condition = vehicleCondition
-    // let vehicle_condition = document.getElementsByClassName("condition").value;
-     console.log(recovery_type);
-    let response = await axios.post("request/", {
-      
-      // 'user': user,
-      'name': name,
-      'loc_lon': loc_lon,
-      'loc_lat': loc_lat,
-      'description': description,
-      'recovery_type': recovery_type,
-      'vehicle_condition': vehicle_condition
-    });
-    console.log(response.data)
-    if (response.data['recovery request'] == true){
-      window.location.reload()
-    }
-  };
+      //   console.log(name);
+      console.log(marker);
+      let user = activeUser;
+
+      let name = document.getElementById("name").value;
+
+      // let loc_lon = document.getElementById("loc_lon").value;
+      // let loc_lat = document.getElementById("loc_lat").value;
+      let description = document.getElementById("description").value;
+      let recovery_type = typeRecovery;
+      // let recovery_type = document.getElementsByClassName("recoveryType").value;
+      let vehicle_condition = vehicleCondition;
+      // let vehicle_condition = document.getElementsByClassName("condition").value;
+      console.log(recovery_type);
+      let response = await axios.post("request/", {
+        // 'user': user,
+        name: name,
+        loc_lon: loc_lon,
+        loc_lat: loc_lat,
+        description: description,
+        recovery_type: recovery_type,
+        vehicle_condition: vehicle_condition,
+      });
+      console.log(response.data);
+      if (response.data["recovery request"] == true) {
+        window.location.reload();
+      }
+    };
 
 
 

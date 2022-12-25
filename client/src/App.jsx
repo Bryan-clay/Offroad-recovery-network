@@ -12,6 +12,7 @@ import Account from './pages/Account';
 import Login from './pages/UserLogin';
 import MapBox from './components/mapBox';
 import Recoveries from './pages/Recoveries';
+import Weather from './components/weather';
 
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -20,7 +21,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 
 
-function App({lng, lat, zoom}) {
+function App({lng, lat, zoom, setLat, setLng, getWeather}) {
+
+  
 
   axios.defaults.baseURL='http://localhost:8000'
 
@@ -29,25 +32,49 @@ function App({lng, lat, zoom}) {
   const [show, setShow] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
   const [recoveries, setRecoveries] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const getRecoveryInfo = async () => {
     let response = await axios.get('recoveries/get_all')
     .then((response)=> {
-      console.log(response.data["all_recoveries"])
+      // console.log(response.data["all_recoveries"])
       //const recoveryInfo = response.data
     })
   }
 
-  const currentUser = async () => {
-      let response = await axios.get("current_user/");
-      let user = response.data && response.data[0] && response.data[0].fields;
-      setActiveUser(user);
-    };
+  const getCurrentUser = async () => {
+
+    try{
+      const response = await axios.get('current_user/');
+      return response.data
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+    //   let response = await axios.get("current_user/");
+    //   // console.log(response.data)
+    //   let user =response.data[0];
+    //   // console.log('INFO')
+      
+    //   // let user = response.data && response.data[0] && response.data[0].fields;
+    //   // console.log(user);
+    //   setActiveUser(user);
+    // };
   useEffect(() => {
-    currentUser();
+    const getUserData = async () => {
+      const user = await getCurrentUser();
+      if (user.is_staff){
+        setIsAdmin(true)
+      }
+      setActiveUser(user)
+    }
+    getUserData()
     getRecoveryInfo();
   }, []);
 
+  // console.log(activeUser)
+  console.log(isAdmin)
   function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {
@@ -92,7 +119,7 @@ function App({lng, lat, zoom}) {
     //   useEffect(() => {
     //     currentUser();
     //   }, []);
-
+console.log(activeUser);
   return (
     <div className="app">
       <div>
@@ -136,7 +163,11 @@ function App({lng, lat, zoom}) {
                 path="recoveries/"
                 element={
                   <h1>
-                    <Recoveries />
+                    <Recoveries weather={getWeather}
+                    recoveries={recoveries}
+                    setRecoveries={setRecoveries}
+                    isAdmin = {isAdmin}
+                    activeUser = {activeUser} />
                   </h1>
                 }
               />
@@ -158,7 +189,7 @@ function App({lng, lat, zoom}) {
                     <Login
                       activeUser={activeUser}
                       setActiveUser={setActiveUser}
-                      currentUser={currentUser}
+                      getCurrentUser={getCurrentUser}
                     />
                   </h1>
                 }
@@ -171,6 +202,14 @@ function App({lng, lat, zoom}) {
                   </div>
                 }
               />
+              <Route
+                path="weather"
+                element={
+                  <div>
+                    <Weather  lat={lat} lng={lng} setLat={setLat} setLng = {setLng} />
+                  </div>
+                }
+              />
             </Routes>
           </Router>
         </div>
@@ -180,14 +219,7 @@ function App({lng, lat, zoom}) {
 
         {show && (
           <div>
-            <MapBox
-            // style={{
-            //   width: 600,
-            //   height: 400,
-            //   borderRadius: "15px",
-            //   border: "3px solid black",
-            // }}
-            />
+            <MapBox />
           </div>
         )}
       </div>

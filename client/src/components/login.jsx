@@ -2,7 +2,7 @@ import './components.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-function SignIn({currentUser}) {
+function SignIn({getCurrentUser}) {
 
 // const [user, setUser] = useState(null)
 
@@ -18,7 +18,7 @@ function SignIn({currentUser}) {
     });
     console.log(response.data)
     if (response.data['login']==true){
-      currentUser()
+      getCurrentUser()
     }
   };
 

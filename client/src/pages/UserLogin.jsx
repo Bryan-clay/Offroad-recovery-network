@@ -3,9 +3,10 @@ import SignIn from "../components/login";
 import Signup from "../components/signup";
 import Nav from "react-bootstrap/Nav";
 import axios from "axios";
+// import LogOut from "../components/logout";
 
 
-function Login({activeUser, setActiveUser, currentUser}) {
+function Login({activeUser, setActiveUser, getCurrentUser, setIsAdmin}) {
   const [signUpShow, setSignUpShow] = useState(false);
   const [logInShow, setLogInShow] = useState(false);
   // const [activeUser, setActiveUser] = useState(null);
@@ -17,6 +18,8 @@ function Login({activeUser, setActiveUser, currentUser}) {
     // axios.defaults.headers.common['X-CSRFToken'] = getCSRFToken()
     let response = await axios.post("user/logout/");
     if (response.data["logout"] == true) {
+      setIsAdmin(false)
+      setActiveUser(null)
       window.location.reload();
     }
   };
@@ -33,7 +36,7 @@ function Login({activeUser, setActiveUser, currentUser}) {
             <div>
               <SignIn 
               setActiveUser={setActiveUser}
-              currentUser={currentUser}
+              getCurrentUser={getCurrentUser}
               />
             </div>
           ) : null}
@@ -51,6 +54,7 @@ function Login({activeUser, setActiveUser, currentUser}) {
         <br />
         <div>
           <button onClick={logOut}>Log Out</button>
+
         </div>
       </div>
     </div>
