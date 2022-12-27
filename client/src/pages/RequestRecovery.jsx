@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 // import mapboxgl from 'mapbox-gl';
 
 
-function RequestRecovery({activeUser, marker, setMarker}) {
+function RequestRecovery({activeUser}) {
   const [typeRecovery, setTypeRecovery] = useState('Unknown')
   const [vehicleCondition, setVehicleCondition] = useState('Unknown')
   const [showMap, setShowMap] = useState(false);
+  const [marker, setMarker] = useState(null);
 
   console.log('ACTIVE USER')
   console.log(activeUser)
@@ -16,6 +17,17 @@ function RequestRecovery({activeUser, marker, setMarker}) {
   const pSize = {
     fontSize: 22,
   };
+
+
+
+      function handleChange(event) {
+        const height = event.target.scrollHeight;
+        const rows = event.target.rows;
+        const rowHeight = 15;
+        const trows = Math.ceil(height / rowHeight) - 1;
+        console.log(height, rows, trows);
+      } 
+
 
     const recoveryRequest = async(event) => {
       event.preventDefault();
@@ -61,6 +73,8 @@ function RequestRecovery({activeUser, marker, setMarker}) {
       let vehicle_condition = vehicleCondition;
       // let vehicle_condition = document.getElementsByClassName("condition").value;
       console.log(recovery_type);
+      
+      try {
       let response = await axios.post("request/", {
         // 'user': user,
         name: name,
@@ -72,7 +86,11 @@ function RequestRecovery({activeUser, marker, setMarker}) {
       });
       console.log(response.data);
       if (response.data["recovery request"] == true) {
-        window.location.reload();
+        alert('Request submitted')
+        window.location.href ='/';
+      }}
+      catch {
+        alert('Request submission failed')
       }
     };
 
@@ -124,7 +142,10 @@ function RequestRecovery({activeUser, marker, setMarker}) {
                           detailed description of your location.
                         </p>
                         <div>
-                          <MapBox />
+                          <MapBox 
+                          marker={marker}
+                          setMarker={setMarker}
+                          />
                         </div>
                       </div>
                     ) : null}
@@ -147,25 +168,28 @@ function RequestRecovery({activeUser, marker, setMarker}) {
                       />
                     </div>
                   ) : null}
+                  <br/>
                   <div>
-                    <p style={pSize}>
+                    <h5>
                       If the GPS coordinates are not known, please provide a
                       deatailed description of location, such as:
-                    </p>
-                    <ul style={pSize}>
+                    </h5>
+                    <ul style={{ pSize, listStyleType: "none" }}>
                       <li>Nearest town</li>
                       <li>Road name (if applicable)</li>
                       <li>Approximate direction from nearest town</li>
                       <li>Estimated distance from nearest town</li>
                     </ul>
                     <textarea
+                      style={{ height: "125px", width: "400px" }}
+                      onChange={handleChange}
                       id="description"
                       type="text"
                       placeholder="description"
                     />
                   </div>
                   <div>
-                    <p>Type of Recovery</p>
+                    <h3>Type of Recovery</h3>
                     <div style={pSize}>
                       <input
                         type="radio"

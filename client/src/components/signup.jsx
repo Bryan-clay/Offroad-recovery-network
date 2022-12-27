@@ -7,14 +7,14 @@ function Signup() {
     event.preventDefault()
     let email= document.getElementById('signUpEmail').value
     let password = document.getElementById("signUpPassword").value;
-    console.log(email, password)
+
     // api/user/signup
     let response = await axios.post("signup/",{
       'email': email,
       'password': password
     })
     if (response.data["signup"]) {
-      window.location.href = "/#/user";
+      window.location.href = "/";
     } else {
       alert("Email already exists")
     }

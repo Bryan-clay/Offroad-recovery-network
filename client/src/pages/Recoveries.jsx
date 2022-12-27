@@ -67,7 +67,7 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
   const deleteRecovery = async (id) => {
     const response = await axios.delete(`approve_recovery/${id}/`);
     if (response["delete"]) {
-      window.location.reload();
+      window.location.href='/';
     }
   };
 
@@ -103,7 +103,7 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
           <div>
             <h2>Open Requests</h2>
             {activeRecoveries
-              .filter((status) => status.approved == true)
+              .filter((status) => status.approved == true && status.status == 'in-progress')
               .map((filteredRecovery) => (
                 <div>
                   <h6>{filteredRecovery.id}</h6>
@@ -120,7 +120,7 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                   <h6>{filteredRecovery.assigned_volunteers}</h6>
                   {/* {getVolunteers(filteredRecovery.id)} */}
                   <div>
-                    {/* <button
+                    <button
                       onClick={(event) =>
                         getWeather(
                           event,
@@ -130,7 +130,7 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                       }
                     >
                       See Current Weather
-                    </button> */}
+                    </button>
                   </div>
 
                   <br />
@@ -158,9 +158,9 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                       </div>
                     )}
                   </div>
-                  <br />
+                  {/* <br /> */}
                   <div>
-                    <button onClick={() => handleMap(e)}>View on map</button>
+                    {/* <button onClick={() => handleMap(e)}>View on map</button> */}
                   </div>
                   <br />
                   {activeUser && (
@@ -172,6 +172,9 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                       >
                         Volunteer
                       </button>
+                      <br/>
+                      <br/>
+                      <button>Complete</button>
                     </div>
                   )}
                   {/* <button onClick={setShowComplete(!showComplete)}>Complete</button> */}
@@ -211,7 +214,9 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                       <h5>{filteredRecovery.location_longitude},</h5>{" "}
                       <h5>{filteredRecovery.location_latitude}</h5>
                     </span>
-                    <button onClick={() => expand(e)}>Details</button>
+                    <h6>{filteredRecovery.description}</h6>
+                    <h6>{filteredRecovery.after_action_report}</h6>
+                    {/* <button onClick={() => expand(e)}>Details</button> */}
                     <h6>{filteredRecovery.status}</h6>
 
                     <br />

@@ -12,9 +12,10 @@ urlpatterns = [
     path('recoveries/get_all/', views.all_recoveries),
     path('request/', views.request_recovery),
     path('update_user/', views.update_user),
-    path('approve_recovery/<int:id>/', views.approve_recovery),
+    path('edit_recovery/<int:id>/', views.edit_recovery),
     path('volunteer/', views.volunteer),
-    path('get_assigned_volunteers', views.get_assigned_volunteers)
+    path('get_assigned_volunteers', views.get_assigned_volunteers),
+    path('delete_account/', views.delete_account)
     
 ]
 

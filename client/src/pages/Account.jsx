@@ -25,9 +25,10 @@ function Account({ activeUser, setActiveUser, getCurrentUser, isAdmin, activeRec
     console.log(user)
     try {
       const response = await axios.put('update_user/', user);
+
           if (response.data["update_info"] == true) {
             console.log("success!");
-            window.location.reload();
+            window.location.href='/';
           }
       setUser(response.data);
     } catch (error) {
@@ -37,19 +38,29 @@ function Account({ activeUser, setActiveUser, getCurrentUser, isAdmin, activeRec
   };
     const approveRecovery = async (id) => {
       console.log(id);
-      const response = await axios.put(`approve_recovery/${id}/`);
+      const response = await axios.put(`edit_recovery/${id}/`);
       console.log(response);
       if (response["approved"]) {
-        window.location.href = "/account";
+        window.location.href = "/";
       }
     };
 
   const deleteRecovery = async (id) => {
-    const response = await axios.delete(`approve_recovery/${id}/`);
+    const response = await axios.delete(`edit_recovery/${id}/`);
     if (response["delete"]) {
-      window.location.reload();
+      alert('Request Deleted')
+      window.location.href = '/';
     }
   };
+
+    const deleteAccount = async (id) => {
+      const response = await axios.delete(`delete_account/`,{
+        id: id
+      });
+      if (response["delete"]) {
+        window.location.href = "/";
+      }
+    };
 
 console.log(activeUser)
 
@@ -65,13 +76,16 @@ console.log(activeUser)
                 .filter((status) => status.approved == false)
                 .map((filteredRecovery) => (
                   <div>
-                    <h6>{filteredRecovery.id - 1}</h6>
+                    <p>Recovery #</p>
+                    <h6>{filteredRecovery.id}</h6>
                     <h3>{filteredRecovery.name}</h3>
                     <h4>{filteredRecovery.recovery_date}</h4>
                     <span>
+                      <p>Coordinates</p>
                       <h5>{filteredRecovery.location_longitude},</h5>{" "}
                       <h5>{filteredRecovery.location_latitude}</h5>
                     </span>
+                    <p>Description</p>
                     <h6>{filteredRecovery.description}</h6>
 
                     <h6>{filteredRecovery.status}</h6>
@@ -84,6 +98,7 @@ console.log(activeUser)
                         Approve
                       </button>
                     </div>
+                    <br />
                     <button
                       onClick={() => {
                         deleteRecovery(filteredRecovery.id);
@@ -103,15 +118,22 @@ console.log(activeUser)
         <div>
           <h3>Welcome {activeUser.email}</h3>
 
-          <p>Email: {activeUser.email}</p>
-          <p>First Name: {activeUser.first_name}</p>
-          <p>Last Name: {activeUser.last_name}</p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Email:  </span>
+            {activeUser.email}
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>First Name:  </span>
+            {activeUser.first_name}
+          </p>
+          <p>
+            <span style={{ fontWeight: "bold" }}>Last Name:  </span>
+            {activeUser.last_name}
+          </p>
         </div>
       )}
 
-      <div>
-        {/* <h3>My assigned Recoveries</h3> */}
-      </div>
+      <div>{/* <h3>My assigned Recoveries</h3> */}</div>
 
       <button onClick={() => setUpdate(!update)}>Update Info</button>
       {update ? (
@@ -144,6 +166,12 @@ console.log(activeUser)
           <button type="submit">Update</button>
         </form>
       ) : null}
+      <br />
+      {/* <div>
+        {activeUser &&
+        <button onClick={deleteAccount(activeUser.id)} >Delete Account</button>
+}
+      </div> */}
     </div>
   );
 

@@ -10,37 +10,31 @@ import mapboxgl from 'mapbox-gl'
 mapboxgl.accessToken ="pk.eyJ1IjoiYmNsYXkiLCJhIjoiY2xieDFpdGdmMDJocDNwcGlkODlta3hsdSJ9.oBLUtqOO-APMWSU-qglGJg";
 
 
-export default function MapBox() {
+export default function MapBox({marker, setMarker}) {
 
 // const mapContainerRef = useRef(null);
 
 const [lng, setLng] = useState(-120.888872);
 const [lat, setLat] = useState(47.306286);
 const [zoom, setZoom] = useState(5.6);
-const [marker, setMarker] = useState(null)
+
 
 const handleClick =(e) =>{
   const coordinates = e.lngLat;
   console.log(coordinates);
 
-
- // I CANNOT GET THE MARKER VALUE TO SET
-
- 
   setMarker({
     lng: coordinates.lng,
-    lat: coordinates.lat,
+    lat: coordinates.lat
   })
 
   
  
-  console.log(`MARKER: ${marker}`);
+ 
 
 
 }
-useEffect(()=>{
-  setMarker()
-},[])
+
 
   return (
   
@@ -51,9 +45,9 @@ useEffect(()=>{
         longitude: lng,
         latitude: lat,
         zoom: zoom,
-        // interactive: {
-        //   doubleClickZoom: false,
-        // }
+        interactive: {
+          doubleClickZoom: false,
+        }
       }}
       style={{
         width: 600,

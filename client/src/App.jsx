@@ -33,6 +33,8 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   const [recoveries, setRecoveries] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [activeRecoveries, setActiveRecoveries] = useState([]);
+  const [marker, setMarker] = useState(null);
+
 
   const filterActiveRecoveries = async () => {
     let response = await axios.get("recoveries/get_all/");
@@ -159,7 +161,10 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
             activeUser = {activeUser}/>} />
             <Route
               path="requestRecovery"
-              element={<RequestRecovery activeUser={activeUser} />}
+              element={<RequestRecovery 
+                activeUser={activeUser} 
+                marker={marker} 
+                setMarker={setMarker} />}
             />
 
             <Route
@@ -194,7 +199,9 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
               }
             />
 
-            <Route path="/mapBox" element={<MapBox />} />
+            <Route path="/mapBox" element={<MapBox 
+            marker={marker}
+            setMarker={setMarker} />} />
 
             <Route
               path="/weather"

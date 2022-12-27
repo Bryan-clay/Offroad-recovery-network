@@ -131,6 +131,7 @@ def user_info(request, email):
 @api_view(['PUT', 'DELETE'])
 def update_user(request):
     print(request.data)
+    
     if request.method == 'PUT':
         User = get_user_model()
         user = get_object_or_404(User, pk=request.user.pk)
@@ -150,10 +151,13 @@ def update_user(request):
             user.last_name = last_name
         user.save()
         return JsonResponse({'update_info': True})
+    # if request.method == 'DELETE':
+    #     AppUser.objects.get(id = id).delete()
+    #     return JsonResponse({'delete': True})
 
 
 @api_view(['PUT', 'DELETE'])
-def approve_recovery(request, id):
+def edit_recovery(request, id):
     print(request)
     if request.method == 'PUT':
         try:
@@ -162,7 +166,7 @@ def approve_recovery(request, id):
             data.save()
             return JsonResponse({'approved', True})
         except Exception as e:
-            return JsonResponse({'approved': False})
+            return JsonResponse({'approved': True})
 
     if request.method == 'DELETE':
         Recoveries.objects.get(id = id).delete()
@@ -189,3 +193,11 @@ def volunteer(request):
 def get_assigned_volunteers(request):
     volunteers = Recoveries.assigned_volunteers.values_list('email', flat=True)
     return JsonResponse({'return volunteers': True})
+
+@api_view(["DELETE"])
+def delete_account(request):
+    id = request.data['id']
+    logout(request)
+    if request.method == 'DELETE':
+        AppUser.objects.get(id = id).delete()
+        return JsonResponse({'delete': True})
