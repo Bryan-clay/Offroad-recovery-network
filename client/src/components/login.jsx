@@ -2,6 +2,7 @@ import './components.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
+
 function SignIn({getCurrentUser}) {
 
 // const [user, setUser] = useState(null)
@@ -9,16 +10,18 @@ function SignIn({getCurrentUser}) {
 
 
   const signIn =async(event) =>{
+    
     event.preventDefault()
     let email = document.getElementById("signInEmail").value;
     let password = document.getElementById("signInPassword").value;
-    let response = await axios.post("user/login/", {
+    let response = await axios.post("login/", {
       'email':email,
       'password': password
     });
     console.log(response.data)
     if (response.data['login']==true){
       getCurrentUser()
+      window.location.href='/'
     }
   };
 

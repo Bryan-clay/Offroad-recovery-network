@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 import SignIn from "../components/login";
 import Signup from "../components/signup";
-import Nav from "react-bootstrap/Nav";
 import axios from "axios";
 // import LogOut from "../components/logout";
 
@@ -9,23 +9,24 @@ import axios from "axios";
 function Login({activeUser, setActiveUser, getCurrentUser, setIsAdmin}) {
   const [signUpShow, setSignUpShow] = useState(false);
   const [logInShow, setLogInShow] = useState(false);
-  // const [activeUser, setActiveUser] = useState(null);
-  console.log(activeUser);
+
+  // console.log(activeUser);
 
 
 
   const logOut = async () => {
-    // axios.defaults.headers.common['X-CSRFToken'] = getCSRFToken()
-    let response = await axios.post("user/logout/");
+  
+ 
+    let response = await axios.post("logout/");
+    console.log(response)
     if (response.data["logout"] == true) {
-      setIsAdmin(false)
-      setActiveUser(null)
-      window.location.reload();
+
+      window.location.href='/'
     }
   };
 
 
-  return (
+return (
     <div>
       <div>
         {activeUser && <h3>Welcome {activeUser.email}</h3>}
@@ -54,7 +55,6 @@ function Login({activeUser, setActiveUser, getCurrentUser, setIsAdmin}) {
         <br />
         <div>
           <button onClick={logOut}>Log Out</button>
-
         </div>
       </div>
     </div>

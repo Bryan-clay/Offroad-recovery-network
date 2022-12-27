@@ -1,80 +1,76 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import HomePage from './pages/HomePage';
-import RequestRecovery from './pages/RequestRecovery';
-import Account from './pages/Account';
-import Login from './pages/UserLogin';
-import MapBox from './components/mapBox';
-import Recoveries from './pages/Recoveries';
-import Weather from './components/weather';
-
+import HomePage from "./pages/HomePage";
+import RequestRecovery from "./pages/RequestRecovery";
+import Account from "./pages/Account";
+import Login from "./pages/UserLogin";
+import MapBox from "./components/mapBox";
+import Recoveries from "./pages/Recoveries";
+import Weather from "./components/weather";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
+function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
+  axios.defaults.baseURL = "http://localhost:8000/api";
 
-
-
-
-function App({lng, lat, zoom, setLat, setLng, getWeather}) {
-
+  // window.location.href = '/';
   
-
-  axios.defaults.baseURL='http://localhost:8000'
-
-
 
   const [show, setShow] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
   const [recoveries, setRecoveries] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [activeRecoveries, setActiveRecoveries] = useState([]);
 
-  const getRecoveryInfo = async () => {
-    let response = await axios.get('recoveries/get_all')
-    .then((response)=> {
-      // console.log(response.data["all_recoveries"])
-      //const recoveryInfo = response.data
-    })
-  }
+  const filterActiveRecoveries = async () => {
+    let response = await axios.get("recoveries/get_all/");
+    console.log(response.data.all_recoveries);
+    setActiveRecoveries(response.data.all_recoveries);
+  };
+
 
   const getCurrentUser = async () => {
-
-    try{
-      const response = await axios.get('current_user/');
-      return response.data
-    }
-    catch (error) {
-      console.error(error)
-    }
-  }
-    //   let response = await axios.get("current_user/");
-    //   // console.log(response.data)
-    //   let user =response.data[0];
-    //   // console.log('INFO')
-      
-    //   // let user = response.data && response.data[0] && response.data[0].fields;
-    //   // console.log(user);
-    //   setActiveUser(user);
-    // };
-  useEffect(() => {
-    const getUserData = async () => {
-      const user = await getCurrentUser();
-      if (user.is_staff){
+    try {
+      const response = await axios.get("current_user/");
+      console.log('DATA')
+      console.log(response.data)
+      setActiveUser(response.data);
+      if (response.data['is_staff']){
         setIsAdmin(true)
       }
-      setActiveUser(user)
+    } catch (error) {
+      console.error(error);
     }
-    getUserData()
-    getRecoveryInfo();
-  }, []);
+  };
+
+  useEffect(() => {
+    // const getUserData = async () => {
+    //   const user = await getCurrentUser();
+    //   if (user.is_staff) {
+    //     setIsAdmin(true);
+    // getUserData();
+
+    // getRecoveryInfo();
+    getCurrentUser();
+    filterActiveRecoveries();
+    
+      },[]);
+ 
 
   // console.log(activeUser)
-  console.log(isAdmin)
+
   function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {
@@ -106,127 +102,112 @@ function App({lng, lat, zoom, setLat, setLng, getWeather}) {
     return csrfToken;
   };
   console.log("token? ", getCSRFToken());
-  axios.defaults.headers.common["X-CSRFToken"] = getCSRFToken();
+  // axios.defaults.headers.common["X-CSRFToken"] = getCSRFToken();
 
+  // const currentUser = async () => {
+  //   let response = await axios.get("current_user/");
+  //   let user = response.data && response.data[0] && response.data[0].fields;
+  //   if (activeUser !== null){
+  //   setActiveUser(user);
+  // }};
 
-    // const currentUser = async () => {
-    //   let response = await axios.get("current_user/");
-    //   let user = response.data && response.data[0] && response.data[0].fields;
-    //   if (activeUser !== null){
-    //   setActiveUser(user);
-    // }};
-
-    //   useEffect(() => {
-    //     currentUser();
-    //   }, []);
-console.log(activeUser);
+  console.log(activeUser);
+  console.log("IS ADMIN")
+  console.log(isAdmin)
   return (
-    <div className="app">
-      <div>
+    <Router>
+      <div className="App">
         <header>
-          <h1>Washington Trail Recovery Network</h1>
-
-          <Navbar className="navbar navbar-dark bg-dark">
-            {/* <Container> */}
-            <Navbar.Brand href="">WTRN</Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/request_recovery">Request Recovery</Nav.Link>
-              <Nav.Link href="/recoveries">Recovery Database</Nav.Link>
-              <Nav.Link href="/user">Log in</Nav.Link>
-              <Nav.Link href="/account">Account</Nav.Link>
-              {/* <Nav.Link href="/login">Log out</Nav.Link> */}
-            </Nav>
-            {/* </Container> */}
-          </Navbar>
+          <Container fixed="top">
+            <h1 className="title">Washington Trail Recovery Network</h1>
+            <Navbar
+              expand="lg"
+              bg="dark"
+              variant="dark"
+              className="justify-content-start"
+            >
+              <br />
+              <Nav className="navigation">
+                <Navbar.Brand>WTRN</Navbar.Brand>
+                <NavLink className="nav-item mx-auto px-3" to="/">
+                  Home
+                </NavLink>
+                <NavLink
+                  className="nav-item mx-auto px-3"
+                  to="/requestRecovery"
+                >
+                  Request Recovery
+                </NavLink>
+                <NavLink className="nav-item mx-auto px-3" to="/recoveries">
+                  Recovery Database
+                </NavLink>
+                <NavLink className="nav-item mx-auto px-3" to="/user">
+                  Log in
+                </NavLink>
+                <NavLink className="nav-item mx-auto px-3" to="/account">
+                  Account
+                </NavLink>
+              </Nav>
+            </Navbar>
+          </Container>
         </header>
-        <div>
-          <Router>
-            <Routes>
-              <Route
-                path=""
-                element={
-                  <h1>
-                    <HomePage activeUser={activeUser} />
-                  </h1>
-                }
-              />
-              <Route
-                path="request_recovery/"
-                element={
-                  <h1>
-                    <RequestRecovery />
-                  </h1>
-                }
-              />
-              <Route
-                path="recoveries/"
-                element={
-                  <h1>
-                    <Recoveries weather={getWeather}
-                    recoveries={recoveries}
-                    setRecoveries={setRecoveries}
-                    isAdmin = {isAdmin}
-                    activeUser = {activeUser} />
-                  </h1>
-                }
-              />
-              <Route
-                path="account/"
-                element={
-                  <h1>
-                    <Account
-                      activeUser={activeUser}
-                      setActiveUser={setActiveUser}
-                    />
-                  </h1>
-                }
-              />
-              <Route
-                path="user/"
-                element={
-                  <h1>
-                    <Login
-                      activeUser={activeUser}
-                      setActiveUser={setActiveUser}
-                      getCurrentUser={getCurrentUser}
-                    />
-                  </h1>
-                }
-              />
-              <Route
-                path="mapBox"
-                element={
-                  <div>
-                    <MapBox />
-                  </div>
-                }
-              />
-              <Route
-                path="weather"
-                element={
-                  <div>
-                    <Weather  lat={lat} lng={lng} setLat={setLat} setLng = {setLng} />
-                  </div>
-                }
-              />
-            </Routes>
-          </Router>
+
+        <div className="content">
+          <Routes>
+
+            <Route path="/" element={<HomePage 
+            activeUser = {activeUser}/>} />
+            <Route
+              path="requestRecovery"
+              element={<RequestRecovery activeUser={activeUser} />}
+            />
+
+            <Route
+              path="recoveries"
+              element={
+                <Recoveries
+                  weather={getWeather}
+                  recoveries={recoveries}
+                  setRecoveries={setRecoveries}
+                  isAdmin={isAdmin}
+                  activeUser={activeUser}
+                  activeRecoveries={activeRecoveries}
+                  setActiveRecoveries={setActiveRecoveries}
+                />
+              }
+            />
+
+            <Route path="/account" element={<Account 
+            activeUser={activeUser}
+            isAdmin={isAdmin}
+            recoveries={recoveries}
+            activeRecoveries={activeRecoveries}/>} />
+
+            <Route
+              path="/user"
+              element={
+                <Login
+                  activeUser={activeUser}
+                  setActiveUser={setActiveUser}
+                  getCurrentUser={getCurrentUser}
+                />
+              }
+            />
+
+            <Route path="/mapBox" element={<MapBox />} />
+
+            <Route
+              path="/weather"
+              element={
+                <Weather lat={lat} lng={lng} setLat={setLat} setLng={setLng} />
+              }
+            />
+          </Routes>
         </div>
       </div>
-      <div>
-        <button onClick={() => setShow(!show)}> Show/Hide Map</button>
-
-        {show && (
-          <div>
-            <MapBox />
-          </div>
-        )}
-      </div>
-
-      <div></div>
-    </div>
+    </Router>
   );
 }
 
-export default App
+export default App;
+

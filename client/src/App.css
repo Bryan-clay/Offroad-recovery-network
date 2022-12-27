@@ -5,13 +5,13 @@
   text-align: center;
 }
 
-
+.title {
+  color: rgb(75, 75, 75);
+}
 
 .card {
   padding: 2em;
 }
-
-
 
 #app {
 margin: 5;

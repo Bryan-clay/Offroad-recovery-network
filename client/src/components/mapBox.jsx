@@ -20,20 +20,27 @@ const [zoom, setZoom] = useState(5.6);
 const [marker, setMarker] = useState(null)
 
 const handleClick =(e) =>{
-    
-    const coordinates = e.lngLat
-    console.log(coordinates)
-    setMarker({
-        lng:coordinates.lng,
-        lat:coordinates.lat
-    })
-    console.log(`MARKER: ${marker}`)
+  const coordinates = e.lngLat;
+  console.log(coordinates);
+
+
+ // I CANNOT GET THE MARKER VALUE TO SET
+
  
-    
+  setMarker({
+    lng: coordinates.lng,
+    lat: coordinates.lat,
+  })
+
+  
+ 
+  console.log(`MARKER: ${marker}`);
+
+
 }
-
-
-
+useEffect(()=>{
+  setMarker()
+},[])
 
   return (
   
@@ -44,6 +51,9 @@ const handleClick =(e) =>{
         longitude: lng,
         latitude: lat,
         zoom: zoom,
+        // interactive: {
+        //   doubleClickZoom: false,
+        // }
       }}
       style={{
         width: 600,

@@ -31,7 +31,7 @@ class Recoveries(models.Model):
     recovery_type = models.CharField(max_length=60)
     vehicle_condition = models.CharField(max_length=60)
     recovery_date = models.DateTimeField(auto_now_add=True)
-    assigned_volunteers = models.CharField(null=True, max_length=200) #TODO MANY TO MANY FIELD
+    assigned_volunteers = models.ManyToManyField(AppUser, related_name='assigned_recoveries')
     approved = models.BooleanField(default=False)
     status = models.CharField(max_length=12, default="in-progress")
     user = models.ManyToManyField(AppUser)

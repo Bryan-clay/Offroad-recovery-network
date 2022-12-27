@@ -19,11 +19,6 @@ def home(request):
     return HttpResponse(theIndex)
      
 
-def recovery(request):
-    theIndex = open('static/index.html').read()
-
-    return HttpResponse(theIndex)
-
 @api_view(['POST'])
 def sign_up(request):
     print(request.data)
@@ -78,12 +73,7 @@ def current_user(request):
             'is_staff': user.is_staff,
 
         }
-        # print(request.user)
 
-        # data=serializers.serialize('json', [request.user], fields=['id', 'email', 'is_superuser', 'is_staff', 'First_name', 'last_name'])
-        
-        # print(data)
-        # return HttpResponse(data)
         return JsonResponse(data)
     else:
         return JsonResponse({'user': None})
@@ -95,28 +85,13 @@ def log_out(request):
     try:
         logout(request)
         print('sign out = TRUE')
+        
         return JsonResponse({'logout': True})
 
     except Exception as e:
         print('sign out = FALSE')
         return JsonResponse({'logout': False, 'reason': 'unable to logout'})
 
-
-@api_view(['GET', 'POST'])
-def log_in_page(request):
-
-    theIndex = open('static/index.html').read()
-    return HttpResponse(theIndex)
-
-
-
-
-
-@api_view(['GET', 'POST'])
-def account(request):
-
-    theIndex = open('static/index.html').read()
-    return HttpResponse(theIndex)
 
 @api_view(['POST'])
 def request_recovery(request):
@@ -135,11 +110,6 @@ def request_recovery(request):
     except Exception as e:
         print(str(e))
         return JsonResponse({'recovery request': False})
-
-
-def recoveries(request):
-    theIndex = open('static/index.html').read()
-    return HttpResponse(theIndex)
 
 
 @api_view(['GET'])
@@ -170,37 +140,52 @@ def update_user(request):
         print(first_name)
         print(last_name)
         print(email)
-        if email is not "":
+        if email != "":
             validator = EmailValidator()
             validator(email)
             user.email = email
-        if first_name is not "":
+        if first_name != "":
             user.first_name = first_name
-        if last_name is not "":
+        if last_name != "":
             user.last_name = last_name
         user.save()
         return JsonResponse({'update_info': True})
 
 
+@api_view(['PUT', 'DELETE'])
+def approve_recovery(request, id):
+    print(request)
+    if request.method == 'PUT':
+        try:
+            data = get_object_or_404(Recoveries, id=id)
+            data.approved = True
+            data.save()
+            return JsonResponse({'approved', True})
+        except Exception as e:
+            return JsonResponse({'approved': False})
+
+    if request.method == 'DELETE':
+        Recoveries.objects.get(id = id).delete()
+        return JsonResponse({'delete': True})
 
 
+@api_view(['PUT'])
+def volunteer(request):
+    print(request.data)
+    try:
+        usr_id = request.data['usr_id']
+        recov_id = request.data['recov_id']
+        print(usr_id)
+        recovery = get_object_or_404(Recoveries, id=recov_id)
+        user = get_object_or_404(AppUser, id=usr_id)
+        print(user)
+        # print(user_email)
+        recovery.assigned_volunteers.add(user)
+        return JsonResponse({'assigned volunteer': True})
+    except Exception as e:
+        return JsonResponse({'assignment failed': e})
+    
 
-
-
-        # if request.data['firstName'] is not None:
-        #     f_name = request.data['firstName']
-        #     user_id.first_name = f_name
-        # if request.data['lastName'] is not None:
-        #     l_name = request.data['laststName']
-        #     user_id.last_name = l_name
-        # if request.data['email'] is not None:
-        #     try:
-        #         validate_email(request.data['email'])
-        #         new_email = request.data['email']
-        #         user_id.email = new_email
-        #         user_id.save()
-        #         return JsonResponse({'user update': True})
-
-
-        #     except Exception as e:
-        #         return JsonResponse({'email validation': False})
+def get_assigned_volunteers(request):
+    volunteers = Recoveries.assigned_volunteers.values_list('email', flat=True)
+    return JsonResponse({'return volunteers': True})
