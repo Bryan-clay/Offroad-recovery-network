@@ -19,13 +19,14 @@ import Login from "./pages/UserLogin";
 import MapBox from "./components/mapBox";
 import Recoveries from "./pages/Recoveries";
 import Weather from "./components/weather";
+import Button from 'react-bootstrap/Button';
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
 function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   axios.defaults.baseURL = "http://localhost:8000/api";
 
-  // window.location.href = '/';
+ 
   
 
   const [show, setShow] = useState(false);
@@ -46,8 +47,6 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   const getCurrentUser = async () => {
     try {
       const response = await axios.get("current_user/");
-      console.log('DATA')
-      console.log(response.data)
       setActiveUser(response.data);
       if (response.data['is_staff']){
         setIsAdmin(true)
@@ -58,20 +57,13 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   };
 
   useEffect(() => {
-    // const getUserData = async () => {
-    //   const user = await getCurrentUser();
-    //   if (user.is_staff) {
-    //     setIsAdmin(true);
-    // getUserData();
 
-    // getRecoveryInfo();
     getCurrentUser();
     filterActiveRecoveries();
     
       },[]);
  
 
-  // console.log(activeUser)
 
   function getCookie(name) {
     let cookieValue = null;

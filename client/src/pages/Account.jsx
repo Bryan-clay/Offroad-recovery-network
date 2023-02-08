@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UpdateInfo from "../components/updateInfo";
 import Recoveries from "./Recoveries";
+import {Button} from 'react-bootstrap';
 
 
 
@@ -69,7 +70,7 @@ console.log(activeUser)
       {isAdmin && (
         <div>
           <h3>View requests pending approval</h3>
-          <button onClick={() => setShowPending(!showPending)}>View</button>
+          <Button onClick={() => setShowPending(!showPending)}>View</Button>
           {showPending ? (
             <div>
               {activeRecoveries
@@ -90,22 +91,22 @@ console.log(activeUser)
 
                     <h6>{filteredRecovery.status}</h6>
                     <div>
-                      <button
+                      <Button
                         onClick={() => {
                           approveRecovery(filteredRecovery.id);
                         }}
                       >
                         Approve
-                      </button>
+                      </Button>
                     </div>
                     <br />
-                    <button
+                    <Button
                       onClick={() => {
                         deleteRecovery(filteredRecovery.id);
                       }}
                     >
                       Delete
-                    </button>
+                    </Button>
                   </div>
                 ))}
             </div>

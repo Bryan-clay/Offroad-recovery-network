@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import MapBox from '../components/mapBox';
 import { useState, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
 // import mapboxgl from 'mapbox-gl';
 
 
@@ -252,7 +253,7 @@ function RequestRecovery({activeUser}) {
                   </div>
                 </div>
                 <div>
-                  <button onClick={recoveryRequest}>Submit Request</button>
+                  <Button onClick={recoveryRequest}>Submit Request</Button>
                 </div>
               </form>
             </div>
