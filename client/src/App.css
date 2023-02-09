@@ -5,13 +5,13 @@
   text-align: center;
 }
 
-.title {
+/* .title {
   color: rgb(75, 75, 75);
-}
+} */
 
-.card {
+/* .card {
   padding: 2em;
-}
+} */
 
 #app {
 margin: 5;
@@ -29,3 +29,36 @@ p {
   height: 50px;
   font-size: 10px;
 } */
+
+.pendingHeader {
+  background-color: rgb(167, 167, 167);
+}
+
+.mainButton {
+  background-color: darkgreen;
+  border-color: black;
+  padding: 9px;
+}
+
+.mainButton:hover {
+  background-color: darkolivegreen;
+}
+
+/* .justify-content-start {
+  border-radius: 5px;
+  background-color: #242424
+} */
+.logo {
+  padding-top: 0;
+  left: 10px;
+  padding-bottom: 0;
+  position: relative;
+  justify-content: center;
+  display: block;
+  max-height: 100%;
+}
+
+.navbar {
+  background-color: #242424;
+  border-radius: 5px;
+}

@@ -1,6 +1,7 @@
 import './components.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { Button, Container, Card } from "react-bootstrap";
 
 
 function SignIn({getCurrentUser}) {
@@ -32,10 +33,12 @@ function SignIn({getCurrentUser}) {
       LOGIN
       <div>
         <form onSubmit={signIn}>
-          <input id='signInEmail' type="text" placeholder="e-mail" />
-          <input id = 'signInPassword' type="password" placeholder="password" />
-          <br/>
-          <button onClick={signIn}>Submit</button>
+          <input id="signInEmail" type="text" placeholder="e-mail" />
+          <input id="signInPassword" type="password" placeholder="password" />
+          <br />
+          <Button className="mainButton" onClick={signIn}>
+            Submit
+          </Button>
         </form>
       </div>
     </div>

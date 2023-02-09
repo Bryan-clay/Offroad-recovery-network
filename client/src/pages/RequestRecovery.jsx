@@ -2,15 +2,21 @@ import axios from 'axios';
 import React from 'react';
 import MapBox from '../components/mapBox';
 import { useState, useEffect } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, 
+  Form, Container, Row, 
+  Col, Card, ListGroup, 
+  ButtonGroup, ToggleButton 
+} from "react-bootstrap";
+import "../App.css";
 // import mapboxgl from 'mapbox-gl';
 
 
 function RequestRecovery({activeUser}) {
   const [typeRecovery, setTypeRecovery] = useState('Unknown')
-  const [vehicleCondition, setVehicleCondition] = useState('Unknown')
+  const [vehicleCondition, setVehicleCondition] = useState('Condition Unknown')
   const [showMap, setShowMap] = useState(false);
   const [marker, setMarker] = useState(null);
+
 
   console.log('ACTIVE USER')
   console.log(activeUser)
@@ -70,8 +76,10 @@ function RequestRecovery({activeUser}) {
       // let loc_lat = document.getElementById("loc_lat").value;
       let description = document.getElementById("description").value;
       let recovery_type = typeRecovery;
+      console.log(recovery_type)
       // let recovery_type = document.getElementsByClassName("recoveryType").value;
       let vehicle_condition = vehicleCondition;
+      console.log(vehicle_condition)
       // let vehicle_condition = document.getElementsByClassName("condition").value;
       console.log(recovery_type);
       
@@ -96,33 +104,46 @@ function RequestRecovery({activeUser}) {
     };
 
 
+  const recoveryTypeRadio = [
+    { name: "Stranded Vehicle/Person", value: "1" },
+    { name: "Vehicle off trail", value: "2" },
+    { name: "Vehicle broken down", value: "3" },
+  ];
 
-
-
+  const vehicleConditionRadio = [
+    { name: "Vehicle can be driven after extraction", value: "1" },
+    { name: "Vehicle can NOT be driven after extraction", value: "2" },
+    { name: "Condition Unknown", value: "3" },
+  ];
 
   return (
     <div>
-      {activeUser ? (
-        <div>
-          RECOVERY
+      <Container>
+        {activeUser ? (
           <div>
-            <p style={pSize}>
-              This section is to request a recovery from the Washington Trail
-              Recovery Network community. REMINDER: The WTRN community is made
-              up of volunteers who dedicate time and resources to keeping the
-              community and the trails safe. Please use this option only after
-              all other options are exhausted. The volunteers of Washington
-              Trail Recovery Network are NOT responsible for any damages
-              sustained during recovery efforts.
-            </p>
+            <h2>RECOVERY</h2>
             <div>
-              <form onSubmit={recoveryRequest}>
+              <Form onSubmit={recoveryRequest}>
+                <p>
+                  This section is to request a recovery from the Washington
+                  Trail Recovery Network community. REMINDER: The WTRN community
+                  is made up of volunteers who dedicate time and resources to
+                  keeping the community and the trails safe. Please use this
+                  option only after all other options are exhausted. The
+                  volunteers of Washington Trail Recovery Network are NOT
+                  responsible for any damages sustained during recovery efforts.
+                </p>
+
                 <div>
-                  <h3>Enter your name</h3>
-                  <input id="name" type="text" placeholder="name" />
+                  <Form.Label>Enter your name</Form.Label>
+                  <Form.Control
+                    id="name"
+                    type="text"
+                    placeholder="Enter your name"
+                  />
                 </div>
                 <div>
-                  <h3>Location of vehicle</h3>
+                  <Form.Label>Location of vehicle</Form.Label>
                   <div>
                     <input
                       onClick={function (event) {
@@ -133,35 +154,41 @@ function RequestRecovery({activeUser}) {
                       id="location"
                       name="location"
                     />
-                    <label style={pSize} for="location">
+                    <Form.Check for="location">
                       <p> I do not have GPS Coordinates</p>
-                    </label>
+                    </Form.Check>
                     {showMap ? (
-                      <div>
-                        <p style={pSize}>
+                      <div style={{ justifyContent: "center" }}>
+                        <p>
                           Please click on your location in the map or leave a
                           detailed description of your location.
                         </p>
-                        <div>
-                          <MapBox 
+
+                        <MapBox
+                          style={{
+                            width: 400,
+                            height: 200,
+                            borderRadius: "15px",
+                            border: "3px solid black",
+                            justifyContent: "center",
+                          }}
                           marker={marker}
                           setMarker={setMarker}
-                          />
-                        </div>
+                        />
                       </div>
                     ) : null}
                   </div>
                   {!showMap ? (
                     <div>
-                      <h3>Longitude</h3>
-                      <input
+                      <Form.Label>Longitude</Form.Label>
+                      <Form.Control
                         className="coordinates"
                         id="loc_lon"
                         type="text"
                         placeholder="Longitude"
                       />
-                      <h3>Latitude</h3>
-                      <input
+                      <Form.Label>Latitude</Form.Label>
+                      <Form.Control
                         className="coordinates"
                         id="loc_lat"
                         type="text"
@@ -169,20 +196,26 @@ function RequestRecovery({activeUser}) {
                       />
                     </div>
                   ) : null}
-                  <br/>
+                  <br />
                   <div>
-                    <h5>
+                    <p>
                       If the GPS coordinates are not known, please provide a
                       deatailed description of location, such as:
-                    </h5>
-                    <ul style={{ pSize, listStyleType: "none" }}>
-                      <li>Nearest town</li>
-                      <li>Road name (if applicable)</li>
-                      <li>Approximate direction from nearest town</li>
-                      <li>Estimated distance from nearest town</li>
-                    </ul>
-                    <textarea
-                      style={{ height: "125px", width: "400px" }}
+                    </p>
+                    <ListGroup>
+                      <ListGroup.Item>Nearest town</ListGroup.Item>
+                      <ListGroup.Item>Road name (if applicable)</ListGroup.Item>
+                      <ListGroup.Item>
+                        Approximate direction from nearest town
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        Estimated distance from nearest town
+                      </ListGroup.Item>
+                    </ListGroup>
+                    <Form.Control
+                      as="textarea"
+                      rows={5}
+                      // style={{ height: "125px", width: "400px" }}
                       onChange={handleChange}
                       id="description"
                       type="text"
@@ -190,80 +223,70 @@ function RequestRecovery({activeUser}) {
                     />
                   </div>
                   <div>
-                    <h3>Type of Recovery</h3>
-                    <div style={pSize}>
-                      <input
-                        type="radio"
-                        onClick={() =>
-                          setTypeRecovery("Stranded Vehicle/Person")
-                        }
-                        name="recoveryType"
-                      />{" "}
-                      Stranded Vehicle/Person
-                      <br />
-                      <input
-                        type="radio"
-                        onClick={() => setTypeRecovery("Vehicle off trail")}
-                        name="recoveryType"
-                      />{" "}
-                      Vehicle off trail
-                      <br />
-                      <input
-                        type="radio"
-                        onClick={() => setTypeRecovery("Vehicle broken down")}
-                        name="recoveryType"
-                      />{" "}
-                      Vehicle broken down
+                    <Form.Label>Type of Recovery</Form.Label>
+                    <div>
+                      <ButtonGroup>
+                        {recoveryTypeRadio.map((typeRadio, idx) => (
+                          <ToggleButton
+                            key={idx}
+                            id={`type-${idx}`}
+                            type="radio"
+                            variant={
+                              idx % 2 ? "outline-success" : "outline-danger"
+                            }
+                            name="typeRadio"
+                            value={typeRadio.name}
+                            checked={typeRecovery === typeRadio.name}
+                            onChange={(e) => setTypeRecovery(e.target.value)}
+                          >
+                            {typeRadio.name}
+                          </ToggleButton>
+                        ))}
+                      </ButtonGroup>
                     </div>
                   </div>
                   <br />
                   <div>
-                    <h3>Condition of Vehicle</h3>
-
-                    <div style={pSize}>
-                      <input
-                        type="radio"
-                        onClick={() =>
-                          setVehicleCondition(
-                            "Vehicle can be driven after extraction"
-                          )
-                        }
-                        name="condition"
-                      />{" "}
-                      Vehicle can be driven after extraction
-                      <br />
-                      <input
-                        type="radio"
-                        onClick={() =>
-                          setVehicleCondition(
-                            "Vehicle can NOT be driven after extraction"
-                          )
-                        }
-                        name="condition"
-                      />{" "}
-                      Vehicle can NOT be driven after extraction
-                      <br />
-                      <input
-                        type="radio"
-                        onClick={() => setVehicleCondition("Unknown")}
-                        name="condition"
-                      />{" "}
-                      Unknown
+                    <div>
+                      <Form.Label>Condition of Vehicle</Form.Label>
+                      <div>
+                        <ButtonGroup>
+                          {vehicleConditionRadio.map((radio) => (
+                            <ToggleButton
+                              id={`type-${radio.name}`}
+                              type="radio"
+                              variant={"outline-success"}
+                              name="radio"
+                              value={radio.name}
+                              checked={vehicleCondition === radio.name}
+                              onChange={(e) =>
+                                setVehicleCondition(e.currentTarget.value)
+                              }
+                            >
+                              {radio.name}
+                            </ToggleButton>
+                          ))}
+                        </ButtonGroup>
+                      </div>
                     </div>
                   </div>
                 </div>
+                
                 <div>
-                  <Button onClick={recoveryRequest}>Submit Request</Button>
+                  
+                  <button className="mainButton" onClick={recoveryRequest}>
+                    Submit Request
+                  </button>
                 </div>
-              </form>
+              </Form>
             </div>
           </div>
-        </div>
-      ) : (
-        <div>
-          <p>Please create an account or login to request a recovery</p>
-        </div>
-      )}
+        ) : (
+          <div>
+            <p>Please create an account or login to request a recovery</p>
+          </div>
+        )}
+      </Container>
     </div>
   );
 }

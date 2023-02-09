@@ -50,10 +50,11 @@ const handleClick =(e) =>{
         }
       }}
       style={{
-        width: 600,
-        height: 400,
+        width: 400,
+        height: 250,
         borderRadius: "15px",
         border: "3px solid black",
+        justifyContent: 'center'
       }}
       mapStyle="mapbox://styles/bclay/clbwzl4og000314mb91qut7vr"
       onDblClick={handleClick}

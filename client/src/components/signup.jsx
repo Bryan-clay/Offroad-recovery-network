@@ -1,5 +1,6 @@
 import "./components.css";
 import axios from 'axios';
+import { Button, Container, Card } from "react-bootstrap";
 
 function Signup() {
 
@@ -25,7 +26,7 @@ function Signup() {
     <div>
       Sign Up
       <div>
-        <form onSubmit={signUp} >
+        <form onSubmit={signUp}>
           <div>
             <h3>Please enter your e-mail</h3>
             <input id="signUpEmail" type="text" placeholder="e-mail" />
@@ -36,7 +37,9 @@ function Signup() {
             {/* <h3>Please re-enter your password</h3>
             <input type="password" placeholder="password" /> */}
           </div>
-          <button onClick={signUp}>Submit</button>
+          <Button className="mainButton" onClick={signUp}>
+            Submit
+          </Button>
         </form>
       </div>
     </div>

@@ -19,7 +19,9 @@ import Login from "./pages/UserLogin";
 import MapBox from "./components/mapBox";
 import Recoveries from "./pages/Recoveries";
 import Weather from "./components/weather";
-import Button from 'react-bootstrap/Button';
+import { Button, Card } from "react-bootstrap";
+import logo from "./assets/WTRN_logo_dark.png";
+<asset></asset>
 
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -109,102 +111,124 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   console.log("IS ADMIN")
   console.log(isAdmin)
   return (
-    <Router>
-      <div className="App">
-        <header>
-          <Container fixed="top">
-            <h1 className="title">Washington Trail Recovery Network</h1>
-            <Navbar
-              expand="lg"
-              bg="dark"
-              variant="dark"
-              className="justify-content-start"
-            >
-              <br />
-              <Nav className="navigation">
-                <Navbar.Brand>WTRN</Navbar.Brand>
-                <NavLink className="nav-item mx-auto px-3" to="/">
-                  Home
-                </NavLink>
-                <NavLink
-                  className="nav-item mx-auto px-3"
-                  to="/requestRecovery"
-                >
-                  Request Recovery
-                </NavLink>
-                <NavLink className="nav-item mx-auto px-3" to="/recoveries">
-                  Recovery Database
-                </NavLink>
-                <NavLink className="nav-item mx-auto px-3" to="/user">
-                  Log in
-                </NavLink>
-                <NavLink className="nav-item mx-auto px-3" to="/account">
-                  Account
-                </NavLink>
-              </Nav>
-            </Navbar>
-          </Container>
-        </header>
+    <Card>
+      <Router>
+        <div className="App">
+          <header>
+            <Container fixed="top">
+              <h1 className="title">Washington Trail Recovery Network</h1>
+              <Navbar
+                // expand="lg"
+                variant="dark"
+                className="navbar"
+              >
+                <br />
+                <Nav className="navigation">
+                  <Navbar.Brand href="/">
+                    <img
+                      src={logo}
+                      width="30px"
+                      height="30px"
+                      className="logo"
+                      alt="WTRN"
+                    />
+                  </Navbar.Brand>
+                  <NavLink className="nav-item mx-auto px-3" to="/">
+                    Home
+                  </NavLink>
+                  <NavLink
+                    className="nav-item mx-auto px-3"
+                    to="/requestRecovery"
+                  >
+                    Request Recovery
+                  </NavLink>
+                  <NavLink className="nav-item mx-auto px-3" to="/recoveries">
+                    Recovery Database
+                  </NavLink>
+                  <NavLink className="nav-item mx-auto px-3" to="/user">
+                    Log in
+                  </NavLink>
+                  <NavLink className="nav-item mx-auto px-3" to="/account">
+                    Account
+                  </NavLink>
+                </Nav>
+              </Navbar>
+            </Container>
+          </header>
 
-        <div className="content">
-          <Routes>
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<HomePage activeUser={activeUser} />} />
+              <Route
+                path="requestRecovery"
+                element={
+                  <RequestRecovery
+                    activeUser={activeUser}
+                    marker={marker}
+                    setMarker={setMarker}
+                  />
+                }
+              />
 
-            <Route path="/" element={<HomePage 
-            activeUser = {activeUser}/>} />
-            <Route
-              path="requestRecovery"
-              element={<RequestRecovery 
-                activeUser={activeUser} 
-                marker={marker} 
-                setMarker={setMarker} />}
-            />
+              <Route
+                path="recoveries"
+                element={
+                  <Recoveries
+                    weather={getWeather}
+                    recoveries={recoveries}
+                    setRecoveries={setRecoveries}
+                    isAdmin={isAdmin}
+                    activeUser={activeUser}
+                    activeRecoveries={activeRecoveries}
+                    setActiveRecoveries={setActiveRecoveries}
+                  />
+                }
+              />
 
-            <Route
-              path="recoveries"
-              element={
-                <Recoveries
-                  weather={getWeather}
-                  recoveries={recoveries}
-                  setRecoveries={setRecoveries}
-                  isAdmin={isAdmin}
-                  activeUser={activeUser}
-                  activeRecoveries={activeRecoveries}
-                  setActiveRecoveries={setActiveRecoveries}
-                />
-              }
-            />
+              <Route
+                path="/account"
+                element={
+                  <Account
+                    activeUser={activeUser}
+                    isAdmin={isAdmin}
+                    recoveries={recoveries}
+                    activeRecoveries={activeRecoveries}
+                  />
+                }
+              />
 
-            <Route path="/account" element={<Account 
-            activeUser={activeUser}
-            isAdmin={isAdmin}
-            recoveries={recoveries}
-            activeRecoveries={activeRecoveries}/>} />
+              <Route
+                path="/user"
+                element={
+                  <Login
+                    activeUser={activeUser}
+                    setActiveUser={setActiveUser}
+                    getCurrentUser={getCurrentUser}
+                  />
+                }
+              />
 
-            <Route
-              path="/user"
-              element={
-                <Login
-                  activeUser={activeUser}
-                  setActiveUser={setActiveUser}
-                  getCurrentUser={getCurrentUser}
-                />
-              }
-            />
+              <Route
+                path="/mapBox"
+                element={<MapBox marker={marker} setMarker={setMarker} />}
+              />
 
-            <Route path="/mapBox" element={<MapBox 
-            marker={marker}
-            setMarker={setMarker} />} />
-
-            <Route
-              path="/weather"
-              element={
-                <Weather lat={lat} lng={lng} setLat={setLat} setLng={setLng} />
-              }
-            />
-          </Routes>
+              <Route
+                path="/weather"
+                element={
+                  <Weather
+                    lat={lat}
+                    lng={lng}
+                    setLat={setLat}
+                    setLng={setLng}
+                  />
+                }
+              />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </Card>
   );
 }
 

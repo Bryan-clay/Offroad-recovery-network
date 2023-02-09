@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import "../App.css";
 import UpdateInfo from "../components/updateInfo";
 import Recoveries from "./Recoveries";
-import {Button} from 'react-bootstrap';
+import {Button, Container, Card} from 'react-bootstrap';
 
 
 
@@ -70,46 +72,62 @@ console.log(activeUser)
       {isAdmin && (
         <div>
           <h3>View requests pending approval</h3>
-          <Button onClick={() => setShowPending(!showPending)}>View</Button>
+          <Button
+            className="mainButton"
+            onClick={() => setShowPending(!showPending)}
+          >
+            View
+          </Button>
           {showPending ? (
-            <div>
-              {activeRecoveries
-                .filter((status) => status.approved == false)
-                .map((filteredRecovery) => (
-                  <div>
-                    <p>Recovery #</p>
-                    <h6>{filteredRecovery.id}</h6>
-                    <h3>{filteredRecovery.name}</h3>
-                    <h4>{filteredRecovery.recovery_date}</h4>
-                    <span>
-                      <p>Coordinates</p>
-                      <h5>{filteredRecovery.location_longitude},</h5>{" "}
-                      <h5>{filteredRecovery.location_latitude}</h5>
-                    </span>
-                    <p>Description</p>
-                    <h6>{filteredRecovery.description}</h6>
+            <Container>
+              <div>
+                {activeRecoveries
+                  .filter((status) => status.approved == false)
+                  .map((filteredRecovery) => (
+                    <Card>
+                      <div>
+                        <Card.Header className="pendingHeader">
+                          Recovery # {filteredRecovery.id}
+                        </Card.Header>
+                        <Card.Title>{filteredRecovery.name}</Card.Title>
+                        <Card.Subtitle>
+                          {filteredRecovery.recovery_date}
+                        </Card.Subtitle>
 
-                    <h6>{filteredRecovery.status}</h6>
-                    <div>
-                      <Button
-                        onClick={() => {
-                          approveRecovery(filteredRecovery.id);
-                        }}
-                      >
-                        Approve
-                      </Button>
-                    </div>
-                    <br />
-                    <Button
-                      onClick={() => {
-                        deleteRecovery(filteredRecovery.id);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                ))}
-            </div>
+                        <p>Coordinates</p>
+                        <h5>{filteredRecovery.location_longitude},</h5>
+                        <h5>{filteredRecovery.location_latitude}</h5>
+
+                        <h6>{filteredRecovery.vehicle_condition}</h6>
+                        <h6>{filteredRecovery.recovery_type}</h6>
+                        <p>Description</p>
+                        <h6>{filteredRecovery.description}</h6>
+
+                        <h6>{filteredRecovery.status}</h6>
+                        <div>
+                          <Button
+                            className="mainButton"
+                            onClick={() => {
+                              approveRecovery(filteredRecovery.id);
+                            }}
+                          >
+                            Approve
+                          </Button>
+                        </div>
+                        <br />
+                        <Button
+                          className="mainButton"
+                          onClick={() => {
+                            deleteRecovery(filteredRecovery.id);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+              </div>
+            </Container>
           ) : null}
         </div>
       )}
@@ -120,15 +138,15 @@ console.log(activeUser)
           <h3>Welcome {activeUser.email}</h3>
 
           <p>
-            <span style={{ fontWeight: "bold" }}>Email:  </span>
+            <span style={{ fontWeight: "bold" }}>Email: </span>
             {activeUser.email}
           </p>
           <p>
-            <span style={{ fontWeight: "bold" }}>First Name:  </span>
+            <span style={{ fontWeight: "bold" }}>First Name: </span>
             {activeUser.first_name}
           </p>
           <p>
-            <span style={{ fontWeight: "bold" }}>Last Name:  </span>
+            <span style={{ fontWeight: "bold" }}>Last Name: </span>
             {activeUser.last_name}
           </p>
         </div>
@@ -136,7 +154,9 @@ console.log(activeUser)
 
       <div>{/* <h3>My assigned Recoveries</h3> */}</div>
 
-      <button onClick={() => setUpdate(!update)}>Update Info</button>
+      <Button className="mainButton" onClick={() => setUpdate(!update)}>
+        Update Info
+      </Button>
       {update ? (
         <form onSubmit={handleSubmit}>
           <br />
@@ -164,7 +184,9 @@ console.log(activeUser)
             onChange={handleChange}
           />
           <br />
-          <button type="submit">Update</button>
+          <Button className="mainButton" type="submit">
+            Update
+          </Button>
         </form>
       ) : null}
       <br />

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import "../App.css";
 import axios from "axios";
 import { useEffect } from "react";
 import Weather from "../components/weather";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import ListGroup from 'react-bootstrap/ListGroup';
+import { Button, Card, ListGroup, Col, Row, Container } from "react-bootstrap";
+
 
 function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries }) {
   const [showActive, setShowActive] = useState(null);
@@ -98,66 +98,72 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
 
       <div>
         <h3>View Current Recovery Requests</h3>
-        <Button
+        <button
+          className="mainButton"
           onClick={function (event) {
             setShowActive(!showActive);
           }}
         >
           Active Requests
-        </Button>
+        </button>
         {showActive ? (
-          <div>
-            <h4>Open Requests</h4>
-            {activeRecoveries
-              .filter(
-                (status) =>
-                  status.approved == true && status.status == "in-progress"
-              )
-              .map((filteredRecovery) => (
-                <div className="recovery">
-                  <Card>
-                    <Card.Title>{filteredRecovery.name}</Card.Title>
-                    <Card.Subtitle>
-                      {filteredRecovery.recovery_date}
-                    </Card.Subtitle>
-                    {/* <h4>{filteredRecovery.recovery_date}</h4> */}
-                    <ListGroup>
-                      <ListGroup.Item>
-                        Recovery ID: {filteredRecovery.id}
-                      </ListGroup.Item>
-                      <span>
+          <Container>
+            <div>
+              <h4>Open Requests</h4>
+              {activeRecoveries
+                .filter(
+                  (status) =>
+                    status.approved == true && status.status == "in-progress"
+                )
+                .map((filteredRecovery) => (
+                  <div className="recovery">
+                    <Card>
+                      <Card.Title>{filteredRecovery.name}</Card.Title>
+                      <Card.Subtitle>
+                        {filteredRecovery.recovery_date}
+                      </Card.Subtitle>
+                      {/* <h4>{filteredRecovery.recovery_date}</h4> */}
+                      <ListGroup>
                         <ListGroup.Item>
-                          {filteredRecovery.location_longitude},
+                          Recovery ID: {filteredRecovery.id}
                         </ListGroup.Item>
+                        <span>
+                          <ListGroup.Item>
+                            {filteredRecovery.location_longitude},
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            {filteredRecovery.location_latitude}
+                          </ListGroup.Item>
+                        </span>
+                        {}
+                        <Card.Text>{filteredRecovery.description}</Card.Text>
+                        {/* <button onClick={(e) => expand(e)}>Details</button> */}
                         <ListGroup.Item>
-                          {filteredRecovery.location_latitude}
+                          {filteredRecovery.status}
                         </ListGroup.Item>
-                      </span>
-                      {}
-                      <Card.Text>{filteredRecovery.description}</Card.Text>
-                      {/* <button onClick={(e) => expand(e)}>Details</button> */}
-                      <ListGroup.Item>{filteredRecovery.status}</ListGroup.Item>
-                      <h6>{filteredRecovery.assigned_volunteers}</h6>
-                      {/* {getVolunteers(filteredRecovery.id)} */}
-                    </ListGroup>
-                    <div className="button_group">
-                      <div>
-                        <Button
-                          onClick={(event) =>
-                            getWeather(
-                              event,
-                              (lat = filteredRecovery.location_latitude),
-                              (lon = filteredRecovery.location_longitude)
-                            )
-                          }
-                        >
-                          See Current Weather
-                        </Button>
-                      </div>
-                      <div>
-                        {isAdmin && (
+                        <h6>{filteredRecovery.assigned_volunteers}</h6>
+                        {/* {getVolunteers(filteredRecovery.id)} */}
+                      </ListGroup>
+                      <div className="button_group">
+                        <Row>
+                          <Col>
+                            <Button
+                              className="mainButton"
+                              onClick={(event) =>
+                                getWeather(
+                                  event,
+                                  (lat = filteredRecovery.location_latitude),
+                                  (lon = filteredRecovery.location_longitude)
+                                )
+                              }
+                            >
+                              See Current Weather
+                            </Button>
+                          </Col>
                           <div>
-                            {/* <div>
+                            {isAdmin && (
+                              <div>
+                                {/* <div>
                           <button
                             onClick={() => {
                               approveRecovery(filteredRecovery.id);
@@ -166,75 +172,89 @@ function Recoveries({ isAdmin, activeUser, activeRecoveries, setActiveRecoveries
                             Approve
                           </button>
                         </div> */}
-                            <div>
-                              <Button
-                                onClick={() => {
-                                  deleteRecovery(filteredRecovery.id);
-                                }}
-                              >
-                                Delete
-                              </Button>
-                            </div>
+                                <Col>
+                                  <Button
+                                    className="mainButton"
+                                    onClick={() => {
+                                      deleteRecovery(filteredRecovery.id);
+                                    }}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Col>
+                              </div>
+                            )}
                           </div>
-                        )}
+                          {/* <br /> */}
+                          <div>
+                            {/* <button onClick={() => handleMap(e)}>View on map</button> */}
+                          </div>
+
+                          {activeUser && (
+                            <div>
+                              <Col>
+                                <Button
+                                  className="mainButton"
+                                  onClick={() =>
+                                    addVolunteer(
+                                      activeUser.id,
+                                      filteredRecovery.id
+                                    )
+                                  }
+                                >
+                                  Volunteer
+                                </Button>
+                              </Col>
+                              <Col>
+                                <Button className="mainButton">Complete</Button>
+                              </Col>
+                            </div>
+                          )}
+                        </Row>
                       </div>
-                      {/* <br /> */}
-                      <div>
-                        {/* <button onClick={() => handleMap(e)}>View on map</button> */}
-                      </div>
-
-                      {activeUser && (
-                        <div>
-                          <Button
-                            onClick={() =>
-                              addVolunteer(activeUser.id, filteredRecovery.id)
-                            }
-                          >
-                            Volunteer
-                          </Button>
-
-                          <Button>Complete</Button>
-                        </div>
-                      )}
-                    </div>
-
-
-                    <br />
-                  </Card>
-                </div>
-              ))}
-          </div>
-        ) : null}
-
-        <div>
-          <h4>View Archived Recoveries</h4>
-          <Button onClick={() => setShowArchived(!showArchived)}>
-            Previous Recoveries
-          </Button>
-          {showArchived ? (
-            <div>
-              RECOVERY ARCHIVE
-              {activeRecoveries
-                .filter((status) => status.status !== "in-progress")
-                .map((filteredRecovery) => (
-                  <div>
-                    <Card>
-                      <Card.Title>{filteredRecovery.name}</Card.Title>
-                      <h4>{filteredRecovery.recovery_date}</h4>
-                      <span>
-                        <h5>{filteredRecovery.location_longitude},</h5>{" "}
-                        <h5>{filteredRecovery.location_latitude}</h5>
-                      </span>
-                      <h6>{filteredRecovery.description}</h6>
-                      <h6>{filteredRecovery.after_action_report}</h6>
-                      {/* <button onClick={() => expand(e)}>Details</button> */}
-                      <h6>{filteredRecovery.status}</h6>
 
                       <br />
                     </Card>
                   </div>
                 ))}
             </div>
+          </Container>
+        ) : null}
+
+        <div>
+          <h4>View Archived Recoveries</h4>
+          <button
+            className="mainButton"
+            onClick={() => setShowArchived(!showArchived)}
+          >
+            Previous Recoveries
+          </button>
+          {showArchived ? (
+            <Container>
+              <div>
+                RECOVERY ARCHIVE
+                {activeRecoveries
+                  .filter((status) => status.status !== "in-progress")
+                  .map((filteredRecovery) => (
+                    <div>
+                      <Card>
+                        <Card.Title>{filteredRecovery.name}</Card.Title>
+                        <h4>{filteredRecovery.recovery_date}</h4>
+                        <span>
+                          <h5>{filteredRecovery.location_longitude},</h5>{" "}
+                          <h5>{filteredRecovery.location_latitude}</h5>
+                        </span>
+                        <h6>{filteredRecovery.description}</h6>
+                        <h6>{filteredRecovery.after_action_report}</h6>
+                        {/* <button onClick={() => expand(e)}>Details</button> */}
+                        <h6>{filteredRecovery.status}</h6>
+
+                        <br />
+                      </Card>
+                    </div>
+                  ))}
+              </div>
+            </Container>
           ) : null}
         </div>
       </div>

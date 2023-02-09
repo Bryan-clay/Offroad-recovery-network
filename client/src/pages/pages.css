@@ -1,0 +1,11 @@
+.pendingHeader {
+    background-color: rgb(167, 167, 167);
+}
+
+.mainButton {
+    background-color: darkgreen;
+    border-color: black;
+}
+.mainButton:hover {
+    background-color: darkolivegreen;
+}
