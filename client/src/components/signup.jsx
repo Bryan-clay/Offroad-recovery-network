@@ -1,6 +1,6 @@
 import "./components.css";
 import axios from 'axios';
-import { Button, Container, Card } from "react-bootstrap";
+import { Button, Container, Card, Form } from "react-bootstrap";
 
 function Signup() {
 
@@ -25,7 +25,31 @@ function Signup() {
   return (
     <div>
       Sign Up
-      <div>
+      <div className="d-flex justify-content-center align-items-center">
+        <Form classname="rounded p-4 p-sm-3" onSubmit={signUp}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              id="signUpEmail"
+              type="email"
+              placeholder="Enter Email"
+            />
+          </Form.Group>
+
+          <Form.Group className="bm-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              id="signUpPassword"
+              type="password"
+              placeholder="password"
+            />
+          </Form.Group>
+          <Button className="mainButton" onClick={signUp}>
+            Submit
+          </Button>
+        </Form>
+      {/* </div> */}
+      {/* <div>
         <form onSubmit={signUp}>
           <div>
             <h3>Please enter your e-mail</h3>
@@ -36,12 +60,12 @@ function Signup() {
             <input id="signUpPassword" type="password" placeholder="password" />
             {/* <h3>Please re-enter your password</h3>
             <input type="password" placeholder="password" /> */}
-          </div>
+          {/* </div>
           <Button className="mainButton" onClick={signUp}>
             Submit
           </Button>
-        </form>
-      </div>
+        </form> */}
+      </div> 
     </div>
   );
 }

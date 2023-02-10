@@ -145,7 +145,7 @@ function RequestRecovery({activeUser}) {
                 <div>
                   <Form.Label>Location of vehicle</Form.Label>
                   <div>
-                    <input
+                    <Form.Check
                       onClick={function (event) {
                         setShowMap(!showMap);
                       }}
@@ -153,10 +153,9 @@ function RequestRecovery({activeUser}) {
                       type="checkbox"
                       id="location"
                       name="location"
+                      label="I do not have GPS Coordinates"
                     />
-                    <Form.Check for="location">
-                      <p> I do not have GPS Coordinates</p>
-                    </Form.Check>
+
                     {showMap ? (
                       <div style={{ justifyContent: "center" }}>
                         <p>
@@ -228,13 +227,12 @@ function RequestRecovery({activeUser}) {
                       <ButtonGroup>
                         {recoveryTypeRadio.map((typeRadio, idx) => (
                           <ToggleButton
+                            className="radioButton"
                             key={idx}
                             id={`type-${idx}`}
                             type="radio"
-                            variant={
-                              idx % 2 ? "outline-success" : "outline-danger"
-                            }
                             name="typeRadio"
+                            variant={"outline-danger"}
                             value={typeRadio.name}
                             checked={typeRecovery === typeRadio.name}
                             onChange={(e) => setTypeRecovery(e.target.value)}
@@ -253,9 +251,10 @@ function RequestRecovery({activeUser}) {
                         <ButtonGroup>
                           {vehicleConditionRadio.map((radio) => (
                             <ToggleButton
+                              className="radioButton"
                               id={`type-${radio.name}`}
                               type="radio"
-                              variant={"outline-success"}
+                              variant={"outline-danger"}
                               name="radio"
                               value={radio.name}
                               checked={vehicleCondition === radio.name}
@@ -271,9 +270,8 @@ function RequestRecovery({activeUser}) {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
-                  
                   <button className="mainButton" onClick={recoveryRequest}>
                     Submit Request
                   </button>

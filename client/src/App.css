@@ -1,8 +1,10 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  position: relative;
 }
 
 /* .title {
@@ -38,6 +40,7 @@ p {
   background-color: darkgreen;
   border-color: black;
   padding: 9px;
+  margin: 5px;
 }
 
 .mainButton:hover {
@@ -49,6 +52,8 @@ p {
   background-color: #242424
 } */
 .logo {
+  max-width: 1020px;
+
   padding-top: 0;
   left: 10px;
   padding-bottom: 0;
@@ -60,5 +65,19 @@ p {
 
 .navbar {
   background-color: #242424;
+  position: relative;
   border-radius: 5px;
+  height: 100%;
+
+}
+
+.radioButton {
+  margin: 5px;
+  padding: 6px;
+}
+
+.form-check .form-check-input {
+  float: none !important;
+  margin: 5px !important;
+  background-color: lightgray;
 }

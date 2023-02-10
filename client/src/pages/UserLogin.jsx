@@ -31,36 +31,46 @@ function Login({activeUser, setActiveUser, getCurrentUser, setIsAdmin}) {
 return (
   <div>
     <div>
-      {activeUser && <h3>Welcome {activeUser.email}</h3>}
+      <Card>
       <div>
-        <p>Already have an account?</p>
-        <button className="mainButton" onClick={() => setLogInShow(!logInShow)}>
-          Log In
-        </button>
-        {logInShow ? (
-          <div>
-            <SignIn
-              setActiveUser={setActiveUser}
-              getCurrentUser={getCurrentUser}
-            />
-          </div>
-        ) : null}
-      </div>
-      <div>
-        <p>New user?</p>
-        <button
-          className="mainButton"
-          onClick={() => setSignUpShow(!signUpShow)}
-        >
-          Sign Up
-        </button>
-        {signUpShow ? (
-          <div>
-            <Signup />
-          </div>
-        ) : null}
-      </div>
-
+        
+        {activeUser && <h3>Welcome {activeUser.email}</h3>}
+        
+          <p>Already have an account?</p>
+          <button
+            className="mainButton"
+            onClick={() => setLogInShow(!logInShow)}
+          >
+            Log In
+          </button>
+          {logInShow ? (
+            <div>
+              <SignIn
+                setActiveUser={setActiveUser}
+                getCurrentUser={getCurrentUser}
+              />
+            </div>
+          ) : null}
+          
+        </div>
+        </Card>
+      
+      <Card>
+        <div>
+          <p>New user?</p>
+          <button
+            className="mainButton"
+            onClick={() => setSignUpShow(!signUpShow)}
+          >
+            Sign Up
+          </button>
+          {signUpShow ? (
+            <div>
+              <Signup />
+            </div>
+          ) : null}
+        </div>
+      </Card>
       <br />
       <div>
         <button className="mainButton" onClick={logOut}>

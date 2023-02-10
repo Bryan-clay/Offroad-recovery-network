@@ -9,7 +9,7 @@ function HomePage({activeUser}) {
     <div>
       
       <div>
-        {activeUser && <h3>Welcome {activeUser.email}</h3>}
+        {activeUser && <h5>Logged in as {activeUser.email}</h5>}
         </div>
         <div>
           <h3>Welcome to Wahington Trail Offroad Network</h3>
