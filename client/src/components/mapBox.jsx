@@ -53,8 +53,7 @@ const handleClick =(e) =>{
         width: 400,
         height: 250,
         borderRadius: "15px",
-        border: "3px solid black",
-        justifyContent: 'center'
+        border: "3px solid black"
       }}
       mapStyle="mapbox://styles/bclay/clbwzl4og000314mb91qut7vr"
       onDblClick={handleClick}

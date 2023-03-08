@@ -127,3 +127,36 @@ justify-content: center;
 .main_container {
   height: 100vh;
 }
+
+.recovery_input {
+  width:50% !important;
+  margin:auto;
+}
+
+.recovery_textarea {
+  width: 50% !important;
+  margin: auto;
+}
+
+.recovery_list {
+  width: 50% !important;
+  margin: auto;
+}
+
+.recovery_label {
+  font-weight: bolder;
+}
+
+.map_div {
+  margin:auto;
+}
+
+.mapboxgl-canvas {
+  position: relative;
+}
+
+.mapbox {
+  /* position: relative !important; */
+  /* margin: auto; */
+
+}

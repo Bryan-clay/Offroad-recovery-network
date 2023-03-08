@@ -123,7 +123,10 @@ function RequestRecovery({activeUser}) {
           <div>
             <h2>RECOVERY</h2>
             <div>
-              <Form onSubmit={recoveryRequest}>
+              <Form
+                className="request_recovery_form"
+                onSubmit={recoveryRequest}
+              >
                 <p>
                   This section is to request a recovery from the Washington
                   Trail Recovery Network community. REMINDER: The WTRN community
@@ -135,15 +138,20 @@ function RequestRecovery({activeUser}) {
                 </p>
 
                 <div>
-                  <Form.Label>Enter your name</Form.Label>
+                  <Form.Label className="recovery_label">
+                    Enter your name
+                  </Form.Label>
                   <Form.Control
+                    className="recovery_input"
                     id="name"
                     type="text"
                     placeholder="Enter your name"
                   />
                 </div>
                 <div>
-                  <Form.Label>Location of vehicle</Form.Label>
+                  <Form.Label className="recovery_label">
+                    Location of vehicle
+                  </Form.Label>
                   <div>
                     <Form.Check
                       onClick={function (event) {
@@ -157,38 +165,43 @@ function RequestRecovery({activeUser}) {
                     />
 
                     {showMap ? (
-                      <div style={{ justifyContent: "center" }}>
+                      <div className="map_div">
                         <p>
                           Please click on your location in the map or leave a
                           detailed description of your location.
                         </p>
-
-                        <MapBox
-                          style={{
-                            width: 400,
-                            height: 200,
-                            borderRadius: "15px",
-                            border: "3px solid black",
-                            justifyContent: "center",
-                          }}
-                          marker={marker}
-                          setMarker={setMarker}
-                        />
+                        <div className="mapbox">
+                          <MapBox
+                            style={{
+                              width: 400,
+                              height: 200,
+                              borderRadius: "15px",
+                              border: "3px solid black",
+                              justifyContent: "center",
+                            }}
+                            marker={marker}
+                            setMarker={setMarker}
+                          />
+                        </div>
                       </div>
                     ) : null}
                   </div>
                   {!showMap ? (
                     <div>
-                      <Form.Label>Longitude</Form.Label>
+                      <Form.Label className="recovery_label">
+                        Longitude
+                      </Form.Label>
                       <Form.Control
-                        className="coordinates"
+                        className="recovery_input"
                         id="loc_lon"
                         type="text"
                         placeholder="Longitude"
                       />
-                      <Form.Label>Latitude</Form.Label>
+                      <Form.Label className="recovery_label">
+                        Latitude
+                      </Form.Label>
                       <Form.Control
-                        className="coordinates"
+                        className="recovery_input"
                         id="loc_lat"
                         type="text"
                         placeholder="Latitude"
@@ -197,21 +210,26 @@ function RequestRecovery({activeUser}) {
                   ) : null}
                   <br />
                   <div>
-                    <p>
+                    <Form.Label className="recovery_label">
                       If the GPS coordinates are not known, please provide a
                       deatailed description of location, such as:
-                    </p>
-                    <ListGroup>
-                      <ListGroup.Item>Nearest town</ListGroup.Item>
-                      <ListGroup.Item>Road name (if applicable)</ListGroup.Item>
-                      <ListGroup.Item>
+                    </Form.Label>
+                    <ListGroup as="ol" numbered variant="flush">
+                      <ListGroup.Item className="recovery_list">
+                        Nearest town
+                      </ListGroup.Item>
+                      <ListGroup.Item className="recovery_list">
+                        Road name (if applicable)
+                      </ListGroup.Item>
+                      <ListGroup.Item className="recovery_list">
                         Approximate direction from nearest town
                       </ListGroup.Item>
-                      <ListGroup.Item>
+                      <ListGroup.Item className="recovery_list">
                         Estimated distance from nearest town
                       </ListGroup.Item>
                     </ListGroup>
                     <Form.Control
+                      className="recovery_textarea"
                       as="textarea"
                       rows={5}
                       // style={{ height: "125px", width: "400px" }}
@@ -222,7 +240,9 @@ function RequestRecovery({activeUser}) {
                     />
                   </div>
                   <div>
-                    <Form.Label>Type of Recovery</Form.Label>
+                    <Form.Label className="recovery_label">
+                      Type of Recovery
+                    </Form.Label>
                     <div>
                       <ButtonGroup>
                         {recoveryTypeRadio.map((typeRadio, idx) => (
@@ -246,7 +266,9 @@ function RequestRecovery({activeUser}) {
                   <br />
                   <div>
                     <div>
-                      <Form.Label>Condition of Vehicle</Form.Label>
+                      <Form.Label className="recovery_label">
+                        Condition of Vehicle
+                      </Form.Label>
                       <div>
                         <ButtonGroup>
                           {vehicleConditionRadio.map((radio) => (
