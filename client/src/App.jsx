@@ -20,7 +20,7 @@ import MapBox from "./components/mapBox";
 import Recoveries from "./pages/Recoveries";
 import Weather from "./components/weather";
 import { Button, Card } from "react-bootstrap";
-import logo from "./assets/WTRN_logo_dark.png";
+import logo from "./assets/WTRN_logo_dark_no_bg.png";
 <asset></asset>
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -123,12 +123,12 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
                 className="navbar"
               >
                 <br />
-                <Nav className="navigation">
+                <Nav className="navigation d-flex align-items-center justify-content-center">
                   <Navbar.Brand href="/">
                     <img
                       src={logo}
-                      width="30px"
-                      height="30px"
+                      // width="30px"
+                      // height="30px"
                       className="logo"
                       alt="WTRN"
                     />
