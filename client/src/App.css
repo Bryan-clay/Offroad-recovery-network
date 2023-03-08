@@ -37,10 +37,10 @@ p {
 }
 
 .mainButton {
-  background-color: darkgreen;
-  border-color: black;
-  padding: 9px;
-  margin: 5px;
+  background-color: darkgreen !important;
+  border-color: black !important;
+  padding: 9px !important;
+  margin: 5px !important;
 }
 
 .mainButton:hover {
@@ -103,10 +103,10 @@ img.logo {
 }
 .carousel_container {
   width: 80vw;
+  position: relative;
 }
 
 .home_carousel {
-  /* position: absolute; */
   max-height: 500px;
   width: 70vw !important;
   margin-bottom: 10px;
@@ -115,6 +115,7 @@ img.logo {
 }
 
 .carousel_row {
+position: relative;
 align-items: center;
 justify-content: center;
 }
