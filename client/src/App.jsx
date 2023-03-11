@@ -59,10 +59,8 @@ function App({ lng, lat, zoom, setLat, setLng, getWeather }) {
   };
 
   useEffect(() => {
-
     getCurrentUser();
     filterActiveRecoveries();
-    
       },[]);
  
 
